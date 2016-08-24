@@ -1,0 +1,26 @@
+Sprucy bill pay notes
+
+1. HTML
+  A. Main page
+    -potential for login*
+    -user interface
+    -history link?
+      -history on the interface page or make a new history page
+
+  B. User Creation Page
+    -user creation form
+
+  C. Admin Page
+    -bill add
+    -payment remove
+    -user administration
+    -behind a user acount
+
+2. Database
+  -sprucypay schema
+    -user table
+      -usernum|username|password(encrypted)|email|amount owed|First Name|Last Name
+    -history table
+      -historynum|date|description|notes|amount
+    -maxnum table
+      -maxnum|maxnumtype|maxnumval
