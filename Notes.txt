@@ -2,7 +2,6 @@ Sprucy bill pay notes
 
 1. HTML
   A. Main page
-    -potential for login*
     -user interface
     -history link?
       -history on the interface page or make a new history page
@@ -11,10 +10,19 @@ Sprucy bill pay notes
     -user creation form
 
   C. Admin Page
-    -bill add
-    -payment remove
-    -user administration
-    -behind a user acount
+    +Features
+      -bill add
+      -payment remove
+      -user administration
+      -behind a user account
+      -user group management
+    +Execution
+      -Users with balances (self creating table)
+      -bill add / pay remove area - directs to php on submit to update database
+      -add user groups selection area ***back burner***
+
+  D. Login page
+    -login fail redirect
 
 2. Database
   -sprucypay schema
