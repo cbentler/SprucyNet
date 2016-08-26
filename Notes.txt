@@ -12,6 +12,11 @@ Sprucy bill pay notes
   C. Admin Page
     +Features
       -bill add
+        -Who
+          -dataset
+        -Amt
+        -Notes
+          -Textbox
       -payment remove
       -user administration
       -behind a user account

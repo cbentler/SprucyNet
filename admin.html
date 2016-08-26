@@ -1,0 +1,162 @@
+<!--SprucyPay Admin Page 8-24-16 v.0.0.2-->
+
+<HTML>
+
+  <head>
+    <title>
+      SprucyPay Admin Page
+    </title>
+<style>
+  body {font-family: "Lato", sans-serif;}
+
+  ul.tab {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #3b5998;
+  }
+
+  /* Float the list items side by side */
+  ul.tab li {
+	  float: left;
+	  width: 33.333%;
+    line-height: 51px;
+  }
+
+  /* Style the links inside the list items */
+  ul.tab li a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+	  vertical-align: center;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 20px;
+	  width: 100%;
+  }
+
+
+  /* Change background color of links on hover */
+  ul.tab li a:hover {
+    background-color: #687fb1;
+  }
+
+  /* Create an active/current tablink class */
+  ul.tab li a:focus, .active {
+    background-color: #687fb1;
+  }
+
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+	  background: #DFE3EE;
+    min-height: 700px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    /*border-width: 15px;
+    border-color: black;*/
+  }
+
+  th {
+    background-color: #3b5998;
+    color: white;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2 !important
+  }
+
+  td {
+    text-align: center;
+  }
+
+  .pwResetBtn{
+    width: 90%;
+  }
+
+  </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+	$(document).ready(function(){
+    var req = new XMLHttpRequest();
+    req.onload = function(){
+      var HTMLText = '<tr><th>User Num</th><th>User Name</th><th>Email</th><th>First Name</th><th>PW reset button(dnw)</th></tr>';
+      HTMLText += this.responseText;
+      $('#usertable').html(HTMLText);
+      //alert(this.responseText);
+    };
+    req.open("get", "user.php", true);
+    req.send();
+	});
+
+		function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+	}
+
+  $( function() {
+  $( "#accordion" ).accordion();
+} );
+
+
+
+
+    </script>
+  </head>
+  <body>
+  <form>
+	<div id="header">
+	</div>
+	<div id="content">
+
+		<ul class="tab">
+			<li><a href="#" id="defaultTab" class="tablinks" onclick="openTab(event, 'tab1')">Bill/Pay</a></li>
+			<li><a href="#" class="tablinks" onclick="openTab(event, 'tab2')">Users</a></li>
+			<li><a href="#" class="tablinks" onclick="openTab(event, 'tab3')">User Groups</a></li>
+		</ul>
+		<div id="tab1" class="tabcontent">
+      <div id="accordion">
+        <h3>Add Bill</h3>
+        <div>
+          <input type="radio" name="usrSelect" value="User"/>
+          <input type="radio" name="grpSelect" value="User Group"/>
+          <br>
+          <input type="text" name="user"/>
+          <br>
+          <input type="text" name="usergrp"/>
+          <br>
+          <input type="text" name="notes"/>
+          <br>
+        </div>
+      </div>
+		</div>
+		<div id="tab2" class="tabcontent">
+      <br>
+      <table class="usertable" id="usertable" name="usertable">
+      </table>
+		</div>
+		<div id="tab3" class="tabcontent">
+			<p>User Groups</p>
+		</div>
+	</div>
+  </form>
+  </body>
+</HTML>
