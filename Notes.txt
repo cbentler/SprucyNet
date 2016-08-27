@@ -37,3 +37,5 @@ Sprucy bill pay notes
       -historynum|date|description|notes|amount
     -maxnum table
       -maxnum|maxnumtype|maxnumval
+    -aob table**back burner**
+      -aobnum|usera|amtowes|userb

@@ -17,7 +17,7 @@
   body {
   font-family: "Lato", sans-serif;
   margin: 0px;
-  
+
   }
 
   ul.tab {
@@ -62,7 +62,7 @@
   /* Style the tab content */
   .tabcontent {
     display: none;
-    padding: 6px 12px;
+    padding: 12px;
     border: 1px solid #ccc;
     border-top: none;
 	  background: #DFE3EE;
@@ -93,6 +93,44 @@
     width: 90%;
   }
 
+  /* Style the buttons that are used to open and close the accordion panel */
+div.accordion {
+    background-color: #eee;
+    color: #FFF;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+div.accordion.active, div.accordion:hover {
+    background-color: #00b33c;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+div.panel {
+  background-color: #00b33c;
+  padding: 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: 0.3s ease-in-out;
+  opacity: 0;
+  width: 100%;
+  border-top: 2px #fff;
+
+}
+
+/* The "show" class is added to the accordion panel when the user clicks on one of the buttons. This will show the panel content */
+div.panel.show {
+    display: block;
+    opacity: 1;
+    max-height: 500px; /* Whatever you like, as long as its more than the height of the content (on all screen sizes) */
+}
+
   </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -103,10 +141,14 @@
       var HTMLText = '<tr><th>User Num</th><th>User Name</th><th>Email</th><th>First Name</th><th>PW reset button(dnw)</th></tr>';
       HTMLText += this.responseText;
       $('#usertable').html(HTMLText);
-      //alert(this.responseText);
     };
     req.open("get", "user.php", true);
     req.send();
+
+    //openTab(event, 'tab1');
+    //$('#defaultTab').focus();
+    $('#tab1').css("display", "block");
+    $('#defaultTab').className += " active";
 	});
 
 		function openTab(evt, tabName) {
@@ -123,9 +165,19 @@
     evt.currentTarget.className += " active";
 	}
 
-  $( function() {
-  $( "#accordion" ).accordion();
-} );
+function buttonClick(){
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+
+
+  for (i = 0; i < acc.length; i++) {
+      acc[i].onclick = function(){
+          this.classList.toggle("active");
+          this.nextElementSibling.classList.toggle("show");
+
+    }
+  }
+};
 
 
 
@@ -149,20 +201,20 @@
 			<li><a href="#" class="tablinks" onclick="openTab(event, 'tab3')">User Groups</a></li>
 		</ul>
 		<div id="tab1" class="tabcontent">
-      <div id="accordion">
-        <h3>Add Bill</h3>
-        <div>
+        <br>
+        <div class="accordion" onclick="buttonClick()">Add Bill</div>
+        <div class="panel">
           <input type="radio" name="usrSelect" value="User"/>
           <input type="radio" name="grpSelect" value="User Group"/>
           <br>
           <input type="text" name="user"/>
+
           <br>
           <input type="text" name="usergrp"/>
           <br>
           <input type="text" name="notes"/>
           <br>
         </div>
-      </div>
 		</div>
 		<div id="tab2" class="tabcontent">
       <br>
