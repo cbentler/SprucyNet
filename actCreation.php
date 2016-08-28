@@ -24,7 +24,7 @@ if ($conn->connect_error) {
 
 
    from
-   sprucypay.maxnum
+   sprucynet.maxnum
    where
    maxnum = 1";
 
@@ -34,7 +34,7 @@ if ($conn->connect_error) {
        echo "Error: " . $sql . "<br>" . $conn->error;
    }
 
-   $update = "update sprucypay.maxnum set maxnumval = maxnumval + 1 where maxnum = 1";
+   $update = "update sprucynet.maxnum set maxnumval = maxnumval + 1 where maxnum = 1";
 
    if ($conn->query($update) === TRUE) {
        echo "Update Successful";
@@ -44,5 +44,7 @@ if ($conn->connect_error) {
 
    $conn->close();
 
+   header('Location: home.html');
+   exit();
 
 ?>

@@ -3,9 +3,8 @@
 <HTML>
 
   <head>
-    <title>
-      SprucyPay Admin Page
-    </title>
+    <title>SprucyPay Admin Page</title>
+    <link rel="icon" href="/sprucynet/favicon.png">
 <style>
 	#banner{
 	background-color: #3b5998;
@@ -66,7 +65,7 @@
     border: 1px solid #ccc;
     border-top: none;
 	  background: #DFE3EE;
-    min-height: 700px;
+    min-height: 1000px;
   }
 
   table {
@@ -95,11 +94,11 @@
 
   /* Style the buttons that are used to open and close the accordion panel */
 div.accordion {
-    background-color: #eee;
-    color: #FFF;
+    background-color: #d9d9d9;
+    color: #000;
     cursor: pointer;
     padding: 18px;
-    width: 100%;
+    width: 97%;
     text-align: left;
     border: none;
     outline: none;
@@ -108,18 +107,18 @@ div.accordion {
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 div.accordion.active, div.accordion:hover {
-    background-color: #00b33c;
+    background-color: #fff;
 }
 
 /* Style the accordion panel. Note: hidden by default */
 div.panel {
-  background-color: #00b33c;
+  background-color: #fff;
   padding: 18px;
   max-height: 0;
   overflow: hidden;
   transition: 0.3s ease-in-out;
   opacity: 0;
-  width: 100%;
+  width: 97%;
   border-top: 2px #fff;
 
 }
@@ -207,12 +206,23 @@ function buttonClick(){
           <input type="radio" name="usrSelect" value="User"/>
           <input type="radio" name="grpSelect" value="User Group"/>
           <br>
-          <input type="text" name="user"/>
-
+          User:<input type="text" name="user"/>
           <br>
-          <input type="text" name="usergrp"/>
+          UserGrp:<input type="text" name="usergrp"/>
           <br>
-          <input type="text" name="notes"/>
+          Notes:<input type="text" name="notes"/>
+          <br>
+        </div>
+        <div class="accordion" onclick="buttonClick()">Add Payment</div>
+        <div class="panel">
+          <input type="radio" name="usrSelect" value="User"/>
+          <input type="radio" name="grpSelect" value="User Group"/>
+          <br>
+          User:<input type="text" name="user"/>
+          <br>
+          UserGrp:<input type="text" name="usergrp"/>
+          <br>
+          Notes:<input type="text" name="notes"/>
           <br>
         </div>
 		</div>
