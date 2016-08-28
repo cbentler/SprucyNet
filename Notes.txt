@@ -1,4 +1,4 @@
-Sprucy bill pay notes
+Sprucy Net bill pay notes
 
 1. HTML
   A. Main page

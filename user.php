@@ -1,8 +1,9 @@
+<!--SprucyNet UserAdmin PHP 8-27-16 v.0.0.3-->
 <?php
         $servername = "localhost";
         $username = "cbentle";
         $password = "guest";
-        $dbname = "sprucypay";
+        $dbname = "sprucynet";
 
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);

@@ -1,10 +1,10 @@
-<!--SprucyPay Account Creation Script 8-24-16 v.0.0.2-->
+<!--SprucyNet Account Creation Script 8-24-16 v.0.0.3-->
 
 <?php
 $servername = "localhost";
 $username = "cbentle";
 $password = "guest";
-$dbname = "sprucypay";
+$dbname = "sprucynet";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
