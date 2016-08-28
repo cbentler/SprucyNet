@@ -68,7 +68,7 @@
     min-height: 1000px;
   }
 
-  table {
+  table.usertable {
     width: 100%;
     border-collapse: collapse;
     /*border-width: 15px;
@@ -98,7 +98,7 @@ div.accordion {
     color: #000;
     cursor: pointer;
     padding: 18px;
-    width: 97%;
+    width: 100%;
     text-align: left;
     border: none;
     outline: none;
@@ -118,7 +118,7 @@ div.panel {
   overflow: hidden;
   transition: 0.3s ease-in-out;
   opacity: 0;
-  width: 97%;
+  width: 100%;
   border-top: 2px #fff;
 
 }
@@ -201,30 +201,52 @@ function buttonClick(){
 		</ul>
 		<div id="tab1" class="tabcontent">
         <br>
+        <div style="display: table-row;">
+        <div style="display: table-cell;">
         <div class="accordion" onclick="buttonClick()">Add Bill</div>
         <div class="panel">
           <input type="radio" name="usrSelect" value="User"/>
           <input type="radio" name="grpSelect" value="User Group"/>
           <br>
-          User:<input type="text" name="user"/>
+          <table>
+            <tr>
+              <td>
+                User:<input type="text" name="user"/>
+                <br>
+                UserGrp:<input type="text" name="usergrp"/>
+                <br>
+              </td>
+              <td>
+                AMT:<input type ="text" name="amt"/>
+              </td>
+            </tr>
+          </table>
           <br>
-          UserGrp:<input type="text" name="usergrp"/>
-          <br>
-          Notes:<input type="text" name="notes"/>
-          <br>
+          Notes:<textarea name="notes" cols="60" rows="3"></textarea>
         </div>
+      </div>
+
+        <div style="display: table-cell;">
         <div class="accordion" onclick="buttonClick()">Add Payment</div>
         <div class="panel">
           <input type="radio" name="usrSelect" value="User"/>
           <input type="radio" name="grpSelect" value="User Group"/>
           <br>
-          User:<input type="text" name="user"/>
+          <table>
+            <tr>
+              <td>
+                User:<input type="text" name="user"/>
+              </td>
+              <td>
+                AMT:<input type ="text" name="amt"/>
+              </td>
+            </tr>
+          </table>
           <br>
-          UserGrp:<input type="text" name="usergrp"/>
-          <br>
-          Notes:<input type="text" name="notes"/>
-          <br>
+          Notes:<textarea name="notes" cols="60" rows="3"></textarea>
         </div>
+      </div>
+      </div>
 		</div>
 		<div id="tab2" class="tabcontent">
       <br>
