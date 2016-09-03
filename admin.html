@@ -13,6 +13,17 @@
 	width: 100%;
 	}
 
+  .panel input{
+    border: none;
+    background-color: #e6e6e6;
+    padding: 4px;
+  }
+
+  .panel textarea{
+    border: none;
+    background-color: #e6e6e6;
+  }
+
   body {
   font-family: "Lato", sans-serif;
   margin: 0px;
@@ -68,24 +79,33 @@
     min-height: 1000px;
   }
 
-  table.usertable {
+  table {
     width: 100%;
     border-collapse: collapse;
     /*border-width: 15px;
     border-color: black;*/
   }
 
-  th {
+  .usertable th {
     background-color: #3b5998;
     color: white;
   }
 
-  tr:nth-child(even) {
+  .usertable tr:nth-child(even) {
     background-color: #f2f2f2 !important
   }
 
-  td {
+  .usertable td {
     text-align: center;
+  }
+
+  .billtable td{
+    padding:18px;
+    vertical-align: top;
+  }
+
+  .accContent td{
+    padding: 0px;
   }
 
   .pwResetBtn{
@@ -94,33 +114,33 @@
 
   /* Style the buttons that are used to open and close the accordion panel */
 div.accordion {
-    background-color: #d9d9d9;
+    background-color: #fff;
     color: #000;
     cursor: pointer;
-    padding: 18px;
+    padding: 12px;
+    height: 18px;
     width: 100%;
     text-align: left;
     border: none;
     outline: none;
-    transition: 0.4s;
+
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 div.accordion.active, div.accordion:hover {
     background-color: #fff;
+    border-left: 6px solid #00cc00;
+
 }
 
 /* Style the accordion panel. Note: hidden by default */
 div.panel {
   background-color: #fff;
-  padding: 18px;
+  padding: 12px;
   max-height: 0;
   overflow: hidden;
-  transition: 0.3s ease-in-out;
   opacity: 0;
   width: 100%;
-  border-top: 2px #fff;
-
 }
 
 /* The "show" class is added to the accordion panel when the user clicks on one of the buttons. This will show the panel content */
@@ -128,6 +148,7 @@ div.panel.show {
     display: block;
     opacity: 1;
     max-height: 500px; /* Whatever you like, as long as its more than the height of the content (on all screen sizes) */
+    border-left: 6px solid #00cc00;
 }
 
   </style>
@@ -148,6 +169,8 @@ div.panel.show {
     //$('#defaultTab').focus();
     $('#tab1').css("display", "block");
     $('#defaultTab').className += " active";
+
+
 	});
 
 		function openTab(evt, tabName) {
@@ -164,17 +187,27 @@ div.panel.show {
     evt.currentTarget.className += " active";
 	}
 
-function buttonClick(){
+function buttonClick(addID){
+
   var acc = document.getElementsByClassName("accordion");
   var i;
 
+  document.getElementById(addID).classList.toggle("active");
+  document.getElementById(addID).nextElementSibling.classList.toggle("show");
+
 
   for (i = 0; i < acc.length; i++) {
+    if(acc[i].id != addID){
+      acc[i].classList.remove("active");
+      acc[i].nextElementSibling.classList.remove("show");
+    }
+    /*
       acc[i].onclick = function(){
           this.classList.toggle("active");
           this.nextElementSibling.classList.toggle("show");
 
-    }
+    }*/
+    //alert(acc[i].id);
   }
 };
 
@@ -201,9 +234,47 @@ function buttonClick(){
 		</ul>
 		<div id="tab1" class="tabcontent">
         <br>
-        <div style="display: table-row;">
-        <div style="display: table-cell;">
-        <div class="accordion" onclick="buttonClick()">Add Bill</div>
+        <table class="billtable">
+        <tr>
+        <td>
+        <div class="accordion" id="addBill" onclick="buttonClick(this.id)">Add Bill</div>
+        <div class="panel">
+          <input type="radio" name="usrSelect" value="User"/>
+          <input type="radio" name="grpSelect" value="User Group"/>
+          <br>
+          <table class="accContent">
+            <tr>
+              <td>
+                User:
+              </td>
+              <td>
+                Amt:
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="text" name="user"/>
+                <input type="text" name="usergrp" style="display: none;" value="usergrp"/>
+              </td>
+              <td>
+                <input type ="text" name="amt"/>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                Notes:
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <textarea name="notes" cols="60" rows="3" value="notes"></textarea>
+              </td>
+          </table>
+          <br>
+        </div>
+      </td>
+      <td>
+        <div class="accordion" id="addPay" onclick="buttonClick(this.id)">Add Payment</div>
         <div class="panel">
           <input type="radio" name="usrSelect" value="User"/>
           <input type="radio" name="grpSelect" value="User Group"/>
@@ -212,9 +283,6 @@ function buttonClick(){
             <tr>
               <td>
                 User:<input type="text" name="user"/>
-                <br>
-                UserGrp:<input type="text" name="usergrp"/>
-                <br>
               </td>
               <td>
                 AMT:<input type ="text" name="amt"/>
@@ -224,29 +292,10 @@ function buttonClick(){
           <br>
           Notes:<textarea name="notes" cols="60" rows="3"></textarea>
         </div>
-      </div>
+      </td>
+      </tr>
+      </table>
 
-        <div style="display: table-cell;">
-        <div class="accordion" onclick="buttonClick()">Add Payment</div>
-        <div class="panel">
-          <input type="radio" name="usrSelect" value="User"/>
-          <input type="radio" name="grpSelect" value="User Group"/>
-          <br>
-          <table>
-            <tr>
-              <td>
-                User:<input type="text" name="user"/>
-              </td>
-              <td>
-                AMT:<input type ="text" name="amt"/>
-              </td>
-            </tr>
-          </table>
-          <br>
-          Notes:<textarea name="notes" cols="60" rows="3"></textarea>
-        </div>
-      </div>
-      </div>
 		</div>
 		<div id="tab2" class="tabcontent">
       <br>
