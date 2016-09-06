@@ -39,3 +39,17 @@ Sprucy Net bill pay notes
       -maxnum|maxnumtype|maxnumval
     -aob table**back burner**
       -aobnum|usera|amtowes|userb
+    -user group table
+      -user group num | usernum
+
+
+project phases:
+0.0.3 - finish the bill pay addition/subtraction function
+0.0.4 - add user groups and user group selection
+0.0.5 - feedback form
+0.1.1 - user login page
+0.1.2 - user login periphreials
+0.2.1 - make home page and link to the server form
+0.2.2 - password security
+0.2.3 - integrate server form users with sprucynet users
+0.2.4 - update server form for css and database management
