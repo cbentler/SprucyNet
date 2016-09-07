@@ -45,6 +45,10 @@ Sprucy Net bill pay notes
 
 project phases:
 0.0.3 - finish the bill pay addition/subtraction function
+  -pull the user data set from the database
+  -user/user group switching function
+  -css for the bill/pay addition
+  -how to add the values from the bill/pay section to the database
 0.0.4 - add user groups and user group selection
 0.0.5 - feedback form
 0.1.1 - user login page
