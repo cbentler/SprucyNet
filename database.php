@@ -35,7 +35,7 @@ class query{
 
     $sql = "SELECT usergrpname from usergrp where usergrpnum > 0";
     $result = $conn->query($sql);
-    $optHTML = '';
+    $optHTML = '<option value="default">>>SELECT USER GROUP<<</option>';
     while($row = $result->fetch_assoc()){
       $opt = '<option value="'.$row["usergrpname"].'">'.$row["usergrpname"].'</option>';
       $optHTML .= $opt;

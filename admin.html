@@ -29,7 +29,7 @@
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    width: 180px;
+    width: 220px;
   }
 
   .panel textarea{
@@ -147,6 +147,15 @@
 
   }
 
+  .userinput{
+    display: none;
+  }
+
+  .userinput.show{
+    display: block;
+
+  }
+
 
   /* Style the buttons that are used to open and close the accordion panel */
 div.accordion {
@@ -221,7 +230,7 @@ div.panel.show {
         success: function(action){
           var HTMLText = '';
           HTMLText += action;
-          $("[name='user']").html(HTMLText);
+          $("[name='userinput']").html(HTMLText);
         }
         });
       };
@@ -234,7 +243,7 @@ div.panel.show {
         success: function(data){
           var HTMLText = '';
           HTMLText += data;
-          $("[name='usergrp']").html(HTMLText);
+          $("[name='usergrpinput']").html(HTMLText);
         },
         error:function(error){console.log(error.responseText);}
       });
@@ -258,6 +267,7 @@ div.panel.show {
 
       var acc = document.getElementsByClassName("accordion");
       var i;
+      alert(addID);
 
       document.getElementById(addID).classList.toggle("active");
       document.getElementById(addID).nextElementSibling.classList.toggle("show");
@@ -270,21 +280,38 @@ div.panel.show {
         }
 
       }
+      if(addID == addBill){
+        billBtnClick('usrSelect', 'user');
+      }
     };
 
     function billBtnClick(btnID, inputID){
       var acc = document.getElementsByClassName("userbtn");
+      var inpt = document.getElementsByClassName("userinput");
+      var inputiden = inputID+"input"
       var i;
 
 
       document.getElementById(btnID).classList.toggle("active");
-      document.getElementById(inputID).classList.toggle("show");
+      document.getElementById(inputiden).classList.toggle("show");
 
       for (i = 0; i < acc.length; i++) {
         if(acc[i].id != btnID){
           acc[i].classList.remove("active");
         }
 
+      }
+
+      for (i = 0; i < inpt.length; i++) {
+        if(inpt[i].id != inputiden){
+          inpt[i].classList.remove("show");
+        }
+      }
+
+      if (inputID == 'user'){
+        $('#userlabel').html("User:");
+      }else{
+        $('#userlabel').html("User Group:");
       }
 
     }
@@ -332,9 +359,9 @@ div.panel.show {
             </tr>
             <tr>
               <td>
-                <select name="user" class="userinput">
+                <select name="userinput" id="userinput" class="userinput" >
                 </select>
-                <select name="usergrp" class="userinput" style="display: none;">
+                <select name="usergrpinput" id="usergrpinput" class="userinput" >
                 </select>
               </td>
               <td>
