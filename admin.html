@@ -129,6 +129,25 @@
     width: 90%;
   }
 
+  .userbtn{
+    padding: 8px;
+    background-color: #4CAF50;
+    border: none;
+    text-align: center;
+    color: #FFF;
+    font-size: 12pt;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    opacity: 0.6;
+  }
+
+  .userbtn:hover, .userbtn.active{
+    opacity: 1;
+
+  }
+
+
   /* Style the buttons that are used to open and close the accordion panel */
 div.accordion {
     background-color: #fff;
@@ -146,7 +165,7 @@ div.accordion {
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 div.accordion.active, div.accordion:hover {
     background-color: #fff;
-    border-left: 6px solid #00cc00;
+    border-left: 6px solid #4CAF50;
 
 }
 
@@ -165,7 +184,7 @@ div.panel.show {
     display: block;
     opacity: 1;
     max-height: 500px; /* Whatever you like, as long as its more than the height of the content (on all screen sizes) */
-    border-left: 6px solid #00cc00;
+    border-left: 6px solid #4CAF50;
 }
 
   </style>
@@ -175,7 +194,7 @@ div.panel.show {
 	$(document).ready(function(){
     getUserTable();
     getUserDS();
-    //getUserGrpDS();
+    getUserGrpDS();
 
     $('#tab1').css("display", "block");
     $('#defaultTab').className += " active";
@@ -197,14 +216,13 @@ div.panel.show {
       $.ajax({url: 'database.php',
         data: {action: "user"},
         type: 'POST',
-        dataType:'json',
-        success: function(data){
+        dataType:'text',
+        error:function(error){console.log(error.responseText);},
+        success: function(action){
           var HTMLText = '';
-          HTMLText += data;
-          alert(HTMLText);
+          HTMLText += action;
           $("[name='user']").html(HTMLText);
-        },
-        error:function(exception){alert('Exeption:'+exception);}
+        }
         });
       };
 
@@ -212,13 +230,13 @@ div.panel.show {
       $.ajax({url: 'database.php',
         data: {'action': 'userGrp'},
         type: 'POST',
-        dataType:'json',
+        dataType:'text',
         success: function(data){
           var HTMLText = '';
           HTMLText += data;
           $("[name='usergrp']").html(HTMLText);
         },
-        error:function(exception){alert('Exception:'+exception);}
+        error:function(error){console.log(error.responseText);}
       });
     };
 
@@ -254,6 +272,23 @@ div.panel.show {
       }
     };
 
+    function billBtnClick(btnID, inputID){
+      var acc = document.getElementsByClassName("userbtn");
+      var i;
+
+
+      document.getElementById(btnID).classList.toggle("active");
+      document.getElementById(inputID).classList.toggle("show");
+
+      for (i = 0; i < acc.length; i++) {
+        if(acc[i].id != btnID){
+          acc[i].classList.remove("active");
+        }
+
+      }
+
+    }
+
 
 
 
@@ -282,12 +317,13 @@ div.panel.show {
         <td>
         <div class="accordion" id="addBill" onclick="buttonClick(this.id)">Add Bill</div>
         <div class="panel">
-          <input type="radio" name="usrSelect" value="User"/>
-          <input type="radio" name="grpSelect" value="User Group"/>
+          <button name="usrSelect" id="usrSelect" value="Bill User" class="userbtn" type="button" onclick="billBtnClick(this.id, 'user')">Bill User</button>
+          <button name="grpSelect" id="grpSelect" value="Bill User Group" class="userbtn" type="button" onclick="billBtnClick(this.id,'usergrp')">Bill User Group</button>
+          <br>
           <br>
           <table class="accContent">
             <tr>
-              <td>
+              <td id="userlabel">
                 User:
               </td>
               <td>
@@ -296,14 +332,18 @@ div.panel.show {
             </tr>
             <tr>
               <td>
-                <select name="user">
-                  <option value="test">test</option>
+                <select name="user" class="userinput">
                 </select>
-                <select name="usergrp" style="display: none;">
+                <select name="usergrp" class="userinput" style="display: none;">
                 </select>
               </td>
               <td>
                 <input type ="text" name="amt"/>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="height: 15px;">
+
               </td>
             </tr>
             <tr>
@@ -328,7 +368,7 @@ div.panel.show {
           <br>
           <table class="accContent">
             <tr>
-              <td>
+              <td id="userlabel">
                 User:
               </td>
               <td>
@@ -338,7 +378,6 @@ div.panel.show {
             <tr>
               <td>
                 <select name="user">
-                  <option value="test">test</option>
                 </select>
               </td>
               <td>

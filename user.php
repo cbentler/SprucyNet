@@ -1,5 +1,6 @@
-// SprucyNet UserAdmin PHP 8-27-16 v.0.0.3
+
 <?php
+/* SprucyNet UserAdmin PHP 8-27-16 v.0.0.3*/
         $servername = "localhost";
         $username = "cbentle";
         $password = "guest";
