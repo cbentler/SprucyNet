@@ -1,0 +1,337 @@
+<!--Server Form v.1.3 5-18-2016-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+      <link rel="icon" href="/sprucynet/favicon.png">
+        <title>
+            Server Request Form
+        </title>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js">
+        </script>
+        <script>
+            $(document).ready(function(){
+                $("#search").click(function(){
+                    var title = $('#title').val();
+                    var year = $('#year').val();
+					var type = $('#mediaType').val();
+					if(type == "TV Show"){
+						type = "series";
+					}
+
+                    var url = "https://www.omdbapi.com/?t="+title+"&y="+year+"&type="+type+"&plot=short&r=json";
+					$.ajax({url: url, success: function(result){
+					if(result.Title == null){
+						alert("Update yo bitch-ass search terms.");
+					}else{
+                    $('#year').val(result.Year);
+                    $('#poster').attr('src', result.Poster);
+					$('#poster').show();
+                    $('#genre').val(result.Genre);
+                    $('#plot').val(result.Plot);
+					$('#plotDiv').show();
+                    $('#score').val(result.imdbRating);
+					$('#title').val(result.Title);
+                    }}});
+                    //$('#comments').val(url);
+                });
+
+            });
+
+        function hideMedia(){
+        $('#infoTable').hide();
+				$('#plotDiv').hide();
+				$('#poster').hide();
+            }
+
+        function checkForType(){
+				switch($('#mediaType').val()){
+					case "TV Show":
+						selectTV();
+						break;
+
+					case "Movie":
+						selectMovie();
+						break;
+
+					case "Book":
+						selectBook();
+						break;
+
+					case "Audio":
+						selectAudio();
+						break;
+
+					default:
+
+					}
+			}
+
+			function selectMovie(){
+				$('#infoTable').show();
+				$('#plotDiv').show();
+				$('#authorRow').hide();
+				$('#seasonRow').hide();
+        $('#episodeRow').hide();
+				$('#artistRow').hide();
+				$('#scoreRow').show();
+				$('#poster').hide();
+				$('#search').show();
+				$('#clear').show();
+				$('#plotDiv').hide();
+				clearKeys();
+			}
+
+			function selectBook(){
+				$('#infoTable').show();
+				$('#plotDiv').show();
+				$('#authorRow').show();
+				$('#seasonRow').hide();
+        $('#episodeRow').hide();
+				$('#artistRow').hide();
+				$('#scoreRow').hide();
+				$('#poster').hide();
+				$('#search').hide();
+				$('#clear').hide();
+				$('#plotDiv').hide();
+				clearKeys();
+			}
+
+            function selectTV(){
+				$('#infoTable').show();
+				$('#plotDiv').show();
+        $('#authorRow').hide();
+				$('#seasonRow').show();
+        $('#episodeRow').show();
+				$('#artistRow').hide();
+				$('#scoreRow').show();
+				$('#poster').hide();
+				$('#search').show();
+				$('#clear').show();
+				$('#plotDiv').hide();
+				clearKeys();
+            }
+
+			function selectAudio(){
+				$('#infoTable').show();
+				$('#plotDiv').show();
+        $('#authorRow').hide();
+				$('#seasonRow').hide();
+        $('#episodeRow').hide();
+				$('#artistRow').show();
+				$('#scoreRow').hide();
+				$('#poster').hide();
+				$('#search').hide();
+				$('#clear').hide();
+				$('#plotDiv').hide();
+				clearKeys();
+            }
+
+			function clearKeys(){
+				$('#title').val('');
+				$('#season').val('');
+        $('#episode').val('');
+				$('#artist').val('');
+				$('#author').val('');
+				$('#year').val('');
+				$('#genre').val('');
+				$('#score').val('');
+				$('#plot').val('');
+				$('#plotDiv').hide();
+				$('#poster').hide();
+				$('#poster').attr('src', '');
+			}
+
+			function populateDate(){
+				var d = new Date();
+				var month = d.getMonth()+1;
+				var day = d.getDate();
+        var hours = d.getHours();
+        var min = d.getMinutes();
+        var sec = d.getSeconds();
+        var mili = d.getMilliseconds();
+				var output = d.getFullYear() + "-" + (month<10 ? '0' : '') + month + "-" + (day<10 ? '0' : '') + day + " " + hours + ":" + min + ":" + sec;
+				$('#dateReq').val(output);
+			}
+
+			function doOnLoad(){
+				hideMedia();
+				clearKeys()
+				checkForType();
+				populateDate();
+
+			}
+
+
+        </script>
+        <style>
+        #banner{
+      	background-color: #3b5998;
+      	min-height: 90px;
+      	max-height: 100px;
+      	width: 100%;
+      	}
+
+        body {
+        font-family: "Lato", sans-serif;
+        margin: 0px;
+        }
+
+		.label{
+			width:95px;
+		}
+		#plot{
+			background-color: #e6e6e6;
+			color: #8c8c8c;
+		}
+		</style>
+    </head>
+    <body onLoad="doOnLoad()">
+    <form action="processingScript.php" method="POST">
+      <div id="banner">
+        <a href="home.html">
+            <img src="sprucy.png" alt="sprucy">
+        </a>
+      </div>
+      <br>
+      <br>
+        <fieldset>
+            <legend>User Details</legend>
+                Requestor:
+                    <select id="requestor" name="requestor">
+                        <option value="Alex">Alex</option>
+                        <option value="Chuck">Chuck</option>
+                        <option value="Scott">Scott</option>
+                        <option value="Shaffer">Shaffer</option>
+                    </select>
+                    <br>
+                    <br>
+                        Comments:
+                    <br>
+                    <textarea name="comments" id="comments" rows="5" cols="100"></textarea>
+                    <br>
+        </fieldset>
+        <fieldset>
+            <legend>
+                Media Info
+            </legend>
+            <table id="picTable">
+                <tr>
+                    <td valign="top">
+            <table id="selectorTable">
+                <tr>
+                    <td>
+                        Type:
+                    </td>
+                    <td>
+                        <select name="mediaType" id="mediaType" onchange="checkForType()">
+                            <option value="default"></option>
+							<option value="Audio">Audio</option>
+							<option value="Book">Book</option>
+                            <option value="Movie">Movie</option>
+                            <option value="TV Show">TV Show</option>
+                        </select>
+                </td>
+                </tr>
+
+			</table>
+			<table id="infoTable">
+                <tr>
+                    <td class="label">
+                        Title:
+                    </td>
+                    <td>
+                        <input name="title" id="title" type="text">
+                </td>
+                <td>
+                </td>
+                <td>
+                    <input type="button" id="search" value="Search">
+                </td>
+				<td>
+                    <input type="button" id="clear" value="Clear" onclick="clearKeys()">
+                </td>
+                <!--
+                <td>
+                    <input type="Button" value="I'm Feeling Lucky">
+                </td>
+                -->
+            </tr>
+            <tr id="seasonRow">
+                    <td class="label">
+                        Season:
+                    </td>
+                    <td>
+                        <input name="season" id="season" type="text">
+                    </td>
+                </tr>
+            <tr>
+            <tr id="episodeRow">
+                    <td class="label">
+                        Episode:
+                    </td>
+                    <td>
+                        <input name="episode" id="episode" type="text">
+                    </td>
+                </tr>
+            <tr>
+			<tr id="artistRow">
+                <td>
+                    Artist:
+                </td>
+                <td>
+                    <input id="artist" name="artist" type="text">
+                </td>
+            </tr>
+			<tr id="authorRow">
+                <td class="label">
+                    Author:
+                </td>
+                <td>
+                    <input id="author" name="author" type="text">
+                </td>
+            </tr>
+            <tr id="yearRow">
+                <td class="label">
+                    Year:
+                </td>
+                <td>
+                    <input name="year" id="year" type="text">
+                </td>
+            </tr>
+            <tr id="genreRow">
+                <td class="label">
+                    Genre:
+                </td>
+                <td>
+                    <input name="genre" id="genre" type="text">
+                </td>
+            </tr>
+            <tr id="scoreRow">
+                <td class="label">
+                    IMDB Score:
+                </td>
+                <td>
+                    <input id="score" type="text">
+                </td>
+            </tr>
+        </table>
+                    </td>
+                    <td>
+                        <img id="poster" src="" height="150px" width="100px">
+                    </td>
+                    </tr>
+                </table>
+				<div id="plotDiv">
+                    Synopsis:
+                    <br>
+                    <textarea id="plot" rows="5" cols="100" readonly></textarea>
+				</div>
+        </fieldset>
+		<input type="text" id="dateReq" name="dateReq" hidden  />
+		<br>
+        <input type="submit" value="Submit"/>
+
+    </form>
+    </body>
+</html>
