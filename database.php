@@ -44,6 +44,26 @@ class query{
     $conn->close();
   }
 
+  function getCats(){
+    $servername = "localhost";
+    $username = "cbentle";
+    $password = "guest";
+    $dbname = "sprucynet";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    $sql = "SELECT catname from category where catnum > 0 ORDER BY catnum";
+    $result = $conn->query($sql);
+    $optHTML = '<option value="default"></option>';
+    while($row = $result->fetch_assoc()){
+      $opt = '<option value="'.$row["catname"].'">'.$row["catname"].'</option>';
+      $optHTML .= $opt;
+    }
+    echo ($optHTML);
+    $conn->close();
+  }
+
   function onLoad(){
         if (isset($_POST['action'])) {
           $action = $_POST['action'];
@@ -69,6 +89,10 @@ class query{
 
              case 'userGrp' :
              $this->getUserGrpDS();
+             break;
+
+             case 'cat' :
+             $this->getCats();
              break;
 
            }

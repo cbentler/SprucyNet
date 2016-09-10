@@ -15,7 +15,7 @@
 
   .panel input{
     border: none;
-    background-color: #e6e6e6;
+    background-color: #DFE3EE;
     padding: 4px;
     border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -24,7 +24,7 @@
 
   .panel select{
     border: none;
-    background-color: #e6e6e6;
+    background-color: #DFE3EE;
     padding: 4px;
     border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -34,7 +34,7 @@
 
   .panel textarea{
     border: none;
-    background-color: #e6e6e6;
+    background-color: #DFE3EE;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -99,8 +99,7 @@
   table {
     width: 100%;
     border-collapse: collapse;
-    /*border-width: 15px;
-    border-color: black;*/
+
   }
 
   .usertable th {
@@ -119,6 +118,7 @@
   .billtable td{
     padding:18px;
     vertical-align: top;
+    width: 50%;
   }
 
   .accContent td{
@@ -131,7 +131,7 @@
 
   .userbtn{
     padding: 8px;
-    background-color: #4CAF50;
+    background-color: #3b5998;
     border: none;
     text-align: center;
     color: #FFF;
@@ -144,7 +144,6 @@
 
   .userbtn:hover, .userbtn.active{
     opacity: 1;
-
   }
 
   .userinput{
@@ -153,6 +152,18 @@
 
   .userinput.show{
     display: block;
+  }
+
+  .addbtn{
+    width: 60px;
+    height: 40px;
+    background-color: #3b5998;
+    text-align: center;
+    color: #FFF;
+    font-size: 25pt;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
 
   }
 
@@ -171,10 +182,11 @@ div.accordion {
 
 }
 
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) 687fb1 */
 div.accordion.active, div.accordion:hover {
-    background-color: #fff;
-    border-left: 6px solid #4CAF50;
+    background-color: #3b5998;
+    /*border-left: 6px solid #3b5998;*/
+    color: #fff;
 
 }
 
@@ -192,24 +204,87 @@ div.panel {
 div.panel.show {
     display: block;
     opacity: 1;
-    max-height: 500px; /* Whatever you like, as long as its more than the height of the content (on all screen sizes) */
-    border-left: 6px solid #4CAF50;
+    max-height: 500px;
 }
+
+.modal{
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.popContent{
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  width: 80%;
+}
+
+.popCancel{
+  width: 60px;
+  height: 40px;
+  background-color: red;
+  text-align: center;
+  color: #FFF;
+  font-size: 22pt;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+}
+
+  .popSubmit{
+    width: 60px;
+    height: 40px;
+    background-color: #00e600;
+    text-align: center;
+    color: #FFF;
+    font-size: 22pt;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+  .userCreationLink{
+    /*height: 40px;*/
+    background-color: #3b5998;
+    font-size: 12pt;
+    padding: 8px;
+    color:#fff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+  }
+
+  .userCreationLink:hover{
+    background-color: #fff;
+    color: #3b5998;
+  }
 
   </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script>
-	$(document).ready(function(){
-    getUserTable();
-    getUserDS();
-    getUserGrpDS();
+    var billto = 1;
 
-    $('#tab1').css("display", "block");
-    $('#defaultTab').className += " active";
+    function onLoad(){
+      getUserTable();
+      getUserDS();
+      getUserGrpDS();
+      getCats();
+      $('#tab1').css("display", "block");
+      $('#defaultTab').className += " active";
+    };
 
-	});
-
+//gets user table data from db file
     function getUserTable(){
       var req = new XMLHttpRequest();
       req.onload = function(){
@@ -221,6 +296,7 @@ div.panel.show {
       req.send();
     };
 
+//gets user data from database file
     function getUserDS(){
       $.ajax({url: 'database.php',
         data: {action: "user"},
@@ -231,10 +307,27 @@ div.panel.show {
           var HTMLText = '';
           HTMLText += action;
           $("[name='userinput']").html(HTMLText);
+          $("[name='payuserinput']").html(HTMLText);
         }
         });
       };
 
+//gets category data from db file
+function getCats(){
+  $.ajax({url: 'database.php',
+    data: {action: "cat"},
+    type: 'POST',
+    dataType:'text',
+    error:function(error){console.log(error.responseText);},
+    success: function(action){
+      var HTMLText = '';
+      HTMLText += action;
+      $("[name='catInput']").html(HTMLText);
+    }
+    });
+  };
+
+//Gets usergrp dataset from database file
     function getUserGrpDS(){
       $.ajax({url: 'database.php',
         data: {'action': 'userGrp'},
@@ -249,6 +342,7 @@ div.panel.show {
       });
     };
 
+//Swtich between tabs
 		function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -263,65 +357,131 @@ div.panel.show {
     evt.currentTarget.className += " active";
 	  }
 
+//expands the add bill or add payment sections of the bill/pay admin section
     function buttonClick(addID){
-
       var acc = document.getElementsByClassName("accordion");
       var i;
-      alert(addID);
-
       document.getElementById(addID).classList.toggle("active");
       document.getElementById(addID).nextElementSibling.classList.toggle("show");
-
-
       for (i = 0; i < acc.length; i++) {
         if(acc[i].id != addID){
           acc[i].classList.remove("active");
           acc[i].nextElementSibling.classList.remove("show");
         }
-
       }
-      if(addID == addBill){
-        billBtnClick('usrSelect', 'user');
-      }
+      defaultBillUser(addID);
+      billto = 1;
     };
 
-    function billBtnClick(btnID, inputID){
-      var acc = document.getElementsByClassName("userbtn");
-      var inpt = document.getElementsByClassName("userinput");
-      var inputiden = inputID+"input"
-      var i;
-
-
-      document.getElementById(btnID).classList.toggle("active");
-      document.getElementById(inputiden).classList.toggle("show");
-
-      for (i = 0; i < acc.length; i++) {
-        if(acc[i].id != btnID){
-          acc[i].classList.remove("active");
+//sets default option to the Bill User button
+    function defaultBillUser(addID){
+      if(addID == 'addBill'){
+        var inputCL = document.getElementById("usrSelect").className.split(/\s+/);
+        var activeVar = 0;
+        for(i = 0; i < inputCL.length; i++){
+          if(inputCL[i] === "active"){
+            activeVar = 1;
+          }
         }
-
-      }
-
-      for (i = 0; i < inpt.length; i++) {
-        if(inpt[i].id != inputiden){
-          inpt[i].classList.remove("show");
+        if(activeVar != 1){
+            document.getElementById("usrSelect").classList.add("active");
+            document.getElementById("userinput").classList.add("show");
+            $('#userlabel').html("User:");
+            document.getElementById("grpSelect").classList.remove("active");
+            document.getElementById("usergrpinput").classList.remove("show");
         }
       }
-
-      if (inputID == 'user'){
-        $('#userlabel').html("User:");
-      }else{
-        $('#userlabel').html("User Group:");
-      }
-
     }
 
+//click function for the bill user and bill user group buttons
+    function billBtnClick(btnID, inputID){
+      var activeBtn = document.getElementById(btnID).className.split(/\s+/);
+      var activeVar;
+      for(i = 0; i < activeBtn.length; i++){
+        if(activeBtn[i] === "active"){
+          activeVar = 1;
+        }
+      }
+      if(activeVar != 1){
+          var acc = document.getElementsByClassName("userbtn");
+          var inpt = document.getElementsByClassName("userinput");
+          var inputiden = inputID+"input"
+          var i;
+          document.getElementById(btnID).classList.toggle("active");
+          document.getElementById(inputiden).classList.toggle("show");
 
+          for (i = 0; i < acc.length; i++) {
+            if(acc[i].id != btnID){
+              acc[i].classList.remove("active");
+            }
+          }
+
+          for (i = 0; i < inpt.length; i++) {
+            if(inpt[i].id != inputiden){
+              inpt[i].classList.remove("show");
+            }
+          }
+
+          if (inputID == 'user'){
+            $('#userlabel').html("User:");
+            billto = 1;
+          }else{
+            $('#userlabel').html("User Group:");
+            billto = 2;
+          }
+        }
+      }
+
+//confirms the submission
+      function confirm(billorPay){
+        //alert(billto);
+        var popBill = '';
+        var popPay = '';
+        if(billorPay == 'billAddBtn'){
+          //bill add
+          var cat = $('#catInput').val();
+          var amt = $('#amt').val();
+          var note = $('#notes').val();
+          if(billto == 1){
+            //user pay
+            var user = $('#userinput').val();
+            popBill = 'Are you sure you would like to submit a bill to <b>'+user+'</b> for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded:<br><b>'+note+'</b><br>';
+            $('#popText').html(popBill);
+          }else if(billto == 2){
+            //user group pay
+            var usergrp = $('#usergrpinput').val();
+            popBill = 'Are you sure you would like to submit a bill to the <b>'+usergrp+'</b> group for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded:<br><b>'+note+'</b><br>';
+            $('#popText').html(popBill);
+          }else{
+            console.log("Error! billto is not what you expect it to be.")
+          }
+        }else if(billorPay == 'payAddBtn'){
+          //pay add
+          var user = $('#payuserinput').val();
+          var amt = $('#payamt').val();
+          var note = $('#paynotes').val();
+          popPay = 'Are you sure you would like to record a payment for <b>'+user+'</b> for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded<br><b>'+note+'</b><br>';
+          $('#popText').html(popPay);
+        }else {
+          console.log("Error! billorPay is empty.")
+        }
+        $('#modal').css("display", "block");
+      }
+
+      function popExit(){
+        $('#modal').css("display", "none");
+      }
+
+      window.onclick = function(event){
+        if (event.target == modal){
+          $('#modal').css("display", "none");
+        }
+      }
 
 
     </script>
   </head>
-  <body>
+  <body onload="onLoad()">
   <form>
 	<div id="banner">
 		<a href="home.html">
@@ -344,33 +504,49 @@ div.panel.show {
         <td>
         <div class="accordion" id="addBill" onclick="buttonClick(this.id)">Add Bill</div>
         <div class="panel">
-          <button name="usrSelect" id="usrSelect" value="Bill User" class="userbtn" type="button" onclick="billBtnClick(this.id, 'user')">Bill User</button>
-          <button name="grpSelect" id="grpSelect" value="Bill User Group" class="userbtn" type="button" onclick="billBtnClick(this.id,'usergrp')">Bill User Group</button>
-          <br>
-          <br>
           <table class="accContent">
             <tr>
+              <td>
+              </td>
               <td id="userlabel">
                 User:
               </td>
-              <td>
-                Amt:
-              </td>
             </tr>
             <tr>
+              <td>
+                <button name="usrSelect" id="usrSelect" value="Bill User" class="userbtn" type="button" onclick="billBtnClick(this.id, 'user')">Bill User</button>
+                <button name="grpSelect" id="grpSelect" value="Bill User Group" class="userbtn" type="button" onclick="billBtnClick(this.id,'usergrp')">Bill User Group</button>
+              </td>
               <td>
                 <select name="userinput" id="userinput" class="userinput" >
                 </select>
                 <select name="usergrpinput" id="usergrpinput" class="userinput" >
                 </select>
               </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="height: 15px;">
+              </td>
+            </tr>
+            <tr>
               <td>
-                <input type ="text" name="amt"/>
+                Category:
+              </td>
+              <td>
+                Amount:
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <select name="catInput" id="catInput">
+                </select>
+              </td>
+              <td>
+                <input type ="text" name="amt" id="amt"/>
               </td>
             </tr>
             <tr>
               <td colspan="2" style="height: 15px;">
-
               </td>
             </tr>
             <tr>
@@ -380,7 +556,16 @@ div.panel.show {
             </tr>
             <tr>
               <td colspan="2">
-                <textarea name="notes" rows="3" value="notes"></textarea>
+                <textarea name="notes" rows="3" id="notes"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="height: 15px;">
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="text-align: right;">
+                <button type="button" id="billAddBtn" class="addbtn" onclick="confirm(this.id)">+</button>
               </td>
             </tr>
           </table>
@@ -390,25 +575,26 @@ div.panel.show {
       <td>
         <div class="accordion" id="addPay" onclick="buttonClick(this.id)">Add Payment</div>
         <div class="panel">
-          <input type="radio" name="usrSelect" value="User"/>
-          <input type="radio" name="grpSelect" value="User Group"/>
-          <br>
           <table class="accContent">
             <tr>
-              <td id="userlabel">
+              <td>
                 User:
               </td>
               <td>
-                Amt:
+                Amount:
               </td>
             </tr>
             <tr>
               <td>
-                <select name="user">
+                <select name="payuserinput" id="payuserinput">
                 </select>
               </td>
               <td>
-                <input type ="text" name="amt"/>
+                <input type ="text" name="payamt" id="payamt"/>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="height: 15px;">
               </td>
             </tr>
             <tr>
@@ -418,7 +604,16 @@ div.panel.show {
             </tr>
             <tr>
               <td colspan="2">
-                <textarea name="notes" rows="3" value="notes"></textarea>
+                <textarea name="paynotes" rows="3" id="paynotes"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="height: 15px;">
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="text-align: right;">
+                <button type="button" id="payAddBtn" class="addbtn" onclick="confirm(this.id)">+</button>
               </td>
             </tr>
           </table>
@@ -426,11 +621,26 @@ div.panel.show {
           </tr>
         </table>
         </div>
+        <div id="modal" class="modal">
+            <div id="popContent" class="popContent">
+              <div id="popText">
+              </div>
+              <div style="text-align: right;">
+                <button type="button" class="popCancel" id="popCancel" onclick="popExit();">x</button>
+                <button type="submit" class="popSubmit" id="popSubmit">+</button>
+              </div>
+            </div>
+        </div>
 		</div>
 		<div id="tab2" class="tabcontent">
       <br>
       <table class="usertable" id="usertable" name="usertable">
       </table>
+      <br>
+      <br>
+      <div style="text-align: right;">
+        <a href="UserCreation.html" class="userCreationLink">Create New User</a>
+      </div>
 		</div>
 		<div id="tab3" class="tabcontent">
 			<p>User Groups</p>
