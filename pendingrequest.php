@@ -65,7 +65,7 @@
 	<body>
     <div id="banner">
   		<a href="home.html">
-  		    <img src="sprucy.png" alt="sprucy">
+  		    <img src="resources/sprucy.png" alt="sprucy">
   		</a>
   	</div>
     <br>
