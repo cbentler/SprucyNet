@@ -1,5 +1,6 @@
-<!--Proc Script v.1.3 5-18-2016-->
+
 <?php
+/*<!--SprucyNet v0.0.4 9-10-16-->*/
 $servername = "localhost";
 $username = "cbentle";
 $password = "guest";

@@ -1,7 +1,5 @@
-
-
 <?php
-/*SprucyNet database queries PHP 9-6-16 v.0.0.3*/
+/*<!--SprucyNet v0.0.4 9-10-16-->*/
 
 class query{
   function getUserDS(){
@@ -15,7 +13,7 @@ class query{
 
     $sql = "SELECT username from user where usernum > 0";
     $result = $conn->query($sql);
-    $optHTML = '<option value="default">>>SELECT USER<<</option>';
+    $optHTML = '<option value="default"></option>';
     while($row = $result->fetch_assoc()){
       $opt = '<option value="'.$row["username"].'">'.$row["username"].'</option>';
       $optHTML .= $opt;
@@ -35,7 +33,7 @@ class query{
 
     $sql = "SELECT usergrpname from usergrp where usergrpnum > 0";
     $result = $conn->query($sql);
-    $optHTML = '<option value="default">>>SELECT USER GROUP<<</option>';
+    $optHTML = '<option value="default"></option>';
     while($row = $result->fetch_assoc()){
       $opt = '<option value="'.$row["usergrpname"].'">'.$row["usergrpname"].'</option>';
       $optHTML .= $opt;

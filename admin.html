@@ -1,4 +1,4 @@
-<!--SprucyNet Admin Page 8-24-16 v.0.0.3-->
+<!--SprucyNet v0.0.4 9-10-16-->
 
 <HTML>
 
@@ -15,7 +15,7 @@
 
   .panel input{
     border: none;
-    background-color: #DFE3EE;
+    background-color: #cdd3e5;
     padding: 4px;
     border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -24,7 +24,7 @@
 
   .panel select{
     border: none;
-    background-color: #DFE3EE;
+    background-color: #cdd3e5;
     padding: 4px;
     border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -34,7 +34,7 @@
 
   .panel textarea{
     border: none;
-    background-color: #DFE3EE;
+    background-color: #cdd3e5;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -92,7 +92,7 @@
     padding: 12px;
     border: 1px solid #ccc;
     border-top: none;
-	  background: #DFE3EE;
+	  background: #cdd3e5;
     min-height: 1000px;
   }
 
@@ -111,6 +111,10 @@
     background-color: #f2f2f2 !important
   }
 
+  .usertable tr:nth-child(odd){
+    background-color: #DFE3EE;
+  }
+
   .usertable td {
     text-align: center;
   }
@@ -125,8 +129,14 @@
     padding: 0px;
   }
 
-  .pwResetBtn{
-    width: 90%;
+  .editBtn{
+    background-color: #3b5998;
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    text-align: center;
   }
 
   .userbtn{
@@ -170,7 +180,7 @@
 
   /* Style the buttons that are used to open and close the accordion panel */
 div.accordion {
-    background-color: #fff;
+    background-color: #f2f2f2;
     color: #000;
     cursor: pointer;
     padding: 12px;
@@ -192,7 +202,7 @@ div.accordion.active, div.accordion:hover {
 
 /* Style the accordion panel. Note: hidden by default */
 div.panel {
-  background-color: #fff;
+  background-color: #f2f2f2;
   padding: 12px;
   max-height: 0;
   overflow: hidden;
@@ -230,7 +240,7 @@ div.panel.show {
 .popCancel{
   width: 60px;
   height: 40px;
-  background-color: red;
+  background-color: #FF0010;
   text-align: center;
   color: #FFF;
   font-size: 22pt;
@@ -252,21 +262,14 @@ div.panel.show {
 }
 
   .userCreationLink{
-    /*height: 40px;*/
-    background-color: #3b5998;
-    font-size: 12pt;
     padding: 8px;
-    color:#fff;
+    background-color: #3b5998;
     text-align: center;
-    text-decoration: none;
+    color: #FFF;
+    font-size: 12pt;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-  }
-
-  .userCreationLink:hover{
-    background-color: #fff;
-    color: #3b5998;
   }
 
   </style>
@@ -275,6 +278,7 @@ div.panel.show {
     <script>
     var billto = 1;
 
+
     function onLoad(){
       getUserTable();
       getUserDS();
@@ -282,13 +286,19 @@ div.panel.show {
       getCats();
       $('#tab1').css("display", "block");
       $('#defaultTab').addClass(" active");
+      $('#amt').blur(function(){
+        formatCurrency(this.id, $('#amt').val());
+      });
+      $('#payamt').blur(function(){
+        formatCurrency(this.id, $('#payamt').val());
+      })
     };
 
 //gets user table data from db file
     function getUserTable(){
       var req = new XMLHttpRequest();
       req.onload = function(){
-        var HTMLText = '<tr><th>User Num</th><th>User Name</th><th>Email</th><th>First Name</th><th>PW reset button(dnw)</th></tr>';
+        var HTMLText = '<tr><th>User Num</th><th>User Name</th><th>Email</th><th>First Name</th><th>Edit User</th></tr>';
         HTMLText += this.responseText;
         $('#usertable').html(HTMLText);
       };
@@ -432,9 +442,9 @@ function getCats(){
         }
       }
 
-//confirms the submission
+//brings up confirmation dialouge
       function confirm(billorPay){
-        //alert(billto);
+
         var popBill = '';
         var popPay = '';
         if(billorPay == 'billAddBtn'){
@@ -442,31 +452,46 @@ function getCats(){
           var cat = $('#catInput').val();
           var amt = $('#amt').val();
           var note = $('#notes').val();
-          if(billto == 1){
-            //user pay
-            var user = $('#userinput').val();
-            popBill = 'Are you sure you would like to submit a bill to <b>'+user+'</b> for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded:<br><b>'+note+'</b><br>';
-            $('#popText').html(popBill);
-          }else if(billto == 2){
-            //user group pay
-            var usergrp = $('#usergrpinput').val();
-            popBill = 'Are you sure you would like to submit a bill to the <b>'+usergrp+'</b> group for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded:<br><b>'+note+'</b><br>';
-            $('#popText').html(popBill);
-          }else{
-            console.log("Error! billto is not what you expect it to be.")
+            if(billto == 1){
+              //user pay
+              var user = $('#userinput').val();
+              if(amt == '' || user == 'default'){
+                alert('Please enter a user and/or amount.');
+              }else{
+              popBill = 'Are you sure you would like to submit a bill to <b>'+user+'</b> for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded:<br><b>'+note+'</b><br>';
+              $('#popText').html(popBill);
+              $('#modal').css("display", "block");
+              }
+            }else if(billto == 2){
+              //user group pay
+              var usergrp = $('#usergrpinput').val();
+              if(amt == '' || usergrp == 'default'){
+                alert('Please enter a usergroup and/or amount.');
+              }else{
+              popBill = 'Are you sure you would like to submit a bill to the <b>'+usergrp+'</b> group for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded:<br><b>'+note+'</b><br>';
+              $('#popText').html(popBill);
+              $('#modal').css("display", "block");
+              }
+            }else{
+              console.log("Error! billto is not what you expect it to be.")
+            }
+          }else if(billorPay == 'payAddBtn'){
+            //pay add
+            var user = $('#payuserinput').val();
+            var amt = $('#payamt').val();
+            var note = $('#paynotes').val();
+            if(amt == '' || user == 'default'){
+              alert('Please enter a user and/or amount.');
+            }else{
+            popPay = 'Are you sure you would like to record a payment for <b>'+user+'</b> for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded<br><b>'+note+'</b><br>';
+            $('#popText').html(popPay);
+            $('#modal').css("display", "block");
+            }
+          }else {
+            console.log("Error! billorPay is empty.")
           }
-        }else if(billorPay == 'payAddBtn'){
-          //pay add
-          var user = $('#payuserinput').val();
-          var amt = $('#payamt').val();
-          var note = $('#paynotes').val();
-          popPay = 'Are you sure you would like to record a payment for <b>'+user+'</b> for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded<br><b>'+note+'</b><br>';
-          $('#popText').html(popPay);
-        }else {
-          console.log("Error! billorPay is empty.")
+
         }
-        $('#modal').css("display", "block");
-      }
 
       function popExit(){
         $('#modal').css("display", "none");
@@ -475,6 +500,25 @@ function getCats(){
       window.onclick = function(event){
         if (event.target == modal){
           $('#modal').css("display", "none");
+        }
+      }
+
+      function formatCurrency(id, val){
+        alert(val+' '+id);
+        var regex = /^\d+(?:\.\d{0,2})$/;
+        if(regex.test(val)){
+          alert('good');
+          $('#'+id).css("background-color","#cdd3e5");
+        }else{
+          $('#'+id).css("background-color","#FF0000");
+          alert('#'+id);
+        }
+        if(id == 'amt'){
+
+        }else if(id == 'payamt'){
+
+        }else{
+          console.log('No ID field on blur.');
         }
       }
 
@@ -637,9 +681,8 @@ function getCats(){
       <table class="usertable" id="usertable" name="usertable">
       </table>
       <br>
-      <br>
       <div style="text-align: right;">
-        <a href="UserCreation.html" class="userCreationLink">Create New User</a>
+        <input id="newUser" name="newUser" class="userCreationLink" type="button" value="Create New User" onclick="location.href='UserCreation.html'" />
       </div>
 		</div>
 		<div id="tab3" class="tabcontent">

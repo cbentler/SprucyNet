@@ -1,6 +1,6 @@
 
 <?php
-/* SprucyNet UserAdmin PHP 8-27-16 v.0.0.3*/
+/* <!--SprucyNet v0.0.4 9-10-16-->*/
         $servername = "localhost";
         $username = "cbentle";
         $password = "guest";
@@ -23,7 +23,7 @@
              // output data of each row
              while($row = $result->fetch_assoc()) {
 
-                 $a = '<tr><td>'. $row["usernum"].'</td><td>'. $row["username"].'</td><td>'. $row["email"].'</td><td>'. $row["fname"].'</td><td><input type="button" class="pwResetBtn" id="pwResetBtn'. $row["usernum"].'" name="pwResetBtn" value="?"/></td></tr>';
+                 $a = '<tr><td>'. $row["usernum"].'</td><td>'. $row["username"].'</td><td>'. $row["email"].'</td><td>'. $row["fname"].'</td><td><button type="button" class="editBtn" id="editBtn'. $row["usernum"].'" name="editBtn"><img src="resources/pencil.png"></button></td></tr>';
                  $var .= $a;
              }
 

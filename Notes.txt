@@ -1,5 +1,14 @@
 Sprucy Net bill pay notes
 
+Color Schemes:
+
+banner and general headers: #3b5998
+bakground color for content sections: #cdd3e5
+background color for lighter table rows: #f2f2f2
+background color for darker table rows: #DFE3EE
+submit button color: #00e600
+cancel button color: #FF0010
+
 1. HTML
   A. Main page
     -user interface
@@ -54,7 +63,7 @@ project phases:
 0.1.1 - user login page
 0.1.2 - user login periphreials
 0.1.3 - password security
-0.2.1 - make home page and link to the server form
+0.2.1 - make home page and link to the server form++
 0.2.2 - integrate server form users with sprucynet users
 0.2.3 - update server form for css and database management
 **user testing**

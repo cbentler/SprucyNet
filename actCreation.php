@@ -1,6 +1,5 @@
-<!--SprucyNet Account Creation Script 8-24-16 v.0.0.3-->
-
 <?php
+/*<!--SprucyNet v0.0.4 9-10-16-->*/
 $servername = "localhost";
 $username = "cbentle";
 $password = "guest";

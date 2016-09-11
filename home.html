@@ -1,4 +1,4 @@
-<!--SprucyNet Home 8-28-16 v.0.0.3-->
+<!--SprucyNet v0.0.4 9-10-16-->
 
 <html>
   <head>
@@ -19,10 +19,34 @@
 
       table{
         width: 100%;
+        text-align: center;
       }
       td{
-        padding: 30px;
-        width: 50%;
+        width: 25%;
+      }
+
+      img.link{
+        border: 10px solid #cdd3e5;
+      }
+
+      img.link:hover{
+        border: 10px solid white;
+      }
+
+      .contentHead{
+        width: 100%;
+        background-color: #3b5998;
+        color: #fff;
+        text-align: center;
+        vertical-align: center;
+        text-decoration: none;
+        font-size: 20px;
+        line-height: 51px;
+      }
+      .content{
+        padding: 12px;
+        background-color: #cdd3e5;
+        min-height: 1000px;
       }
 
 
@@ -36,27 +60,32 @@
   	</div>
     <br>
     <br>
+    <div class="contentHead">Welcome Home!</div>
+    <div class="content">
+    <br>
+    <br>
     <table>
       <tr>
-        <td style="text-align: right;">
+        <td>
           <a href="pendingrequest.php">
-            <img src="resources/serverform.png">
+            <img class="link" src="resources/serverform.png">
           </a>
         </td>
         <td>
-          <img src="resources/billpay.png">
+          <img class="link" src="resources/billpay.png">
         </td>
-      </tr>
-      <tr>
-        <td style="text-align: right;">
-          <img src="resources/feedback.png">
+        <td>
+          <a href="resources/feedback.gif">
+          <img class="link" src="resources/feedback.png">
+        </a>
         </td>
         <td>
           <a href="admin.html">
-            <img src="resources/admin.png">
+            <img class="link" src="resources/admin.png">
           </a>
         </td>
       </tr>
     </table>
+  </div>
   </body>
 </html>
