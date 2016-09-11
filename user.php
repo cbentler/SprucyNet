@@ -23,7 +23,7 @@
              // output data of each row
              while($row = $result->fetch_assoc()) {
 
-                 $a = '<tr><td>'. $row["usernum"].'</td><td>'. $row["username"].'</td><td>'. $row["email"].'</td><td>'. $row["fname"].'</td><td><button type="button" class="editBtn" id="editBtn'. $row["usernum"].'" name="editBtn"><img src="resources/pencil.png"></button></td></tr>';
+                 $a = '<tr><td>'. $row["usernum"].'</td><td>'. $row["username"].'</td><td>'. $row["email"].'</td><td>'. $row["fname"].'</td><td><button type="button" class="editBtn" id="editBtn'. $row["usernum"].'" name="editBtn" onClick="editUser();"><img src="resources/pencil.png"></button></td></tr>';
                  $var .= $a;
              }
 

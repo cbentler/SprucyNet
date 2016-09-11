@@ -145,7 +145,7 @@
           compArr = $.grep(compArr, function(val){
             return val != btnID;
           });
-          $('#'+btnID).val(" ");
+          $('#'+btnID).val("+");
         }
       }
 
@@ -225,7 +225,7 @@
 
                $table = '<tr><td>'. $row["requestnum"].'</td><td id="user'. $row["requestnum"].'">'. $row["requestor"].'</td><td id="title'. $row["requestnum"].'">';
                $table .= $row["title"].'</td><td>'. $row["mediatype"].'</td><td id="date'. $row["requestnum"].'">'. $row["requestdate"].'</td><td>'. $row["comments"];
-               $table .= '</td><td><input type="button" id="'. $row["requestnum"].'" name="deleteButton" value=" " onclick="q(this.id)" class="compBtn"/></td></tr>';
+               $table .= '</td><td><input type="button" id="'. $row["requestnum"].'" name="deleteButton" value="+" onclick="q(this.id)" class="compBtn"/></td></tr>';
                echo($table);
 
              }
