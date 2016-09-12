@@ -206,7 +206,7 @@
         $servername = "localhost";
         $username = "cbentle";
         $password = "guest";
-        $dbname = "serverForm";
+        $dbname = "sprucynet";
 
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);

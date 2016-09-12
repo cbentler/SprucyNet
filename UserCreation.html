@@ -18,19 +18,37 @@
       body {
       font-family: "Lato", sans-serif;
       margin: 0px;
+      }
 
+      .contentHead{
+        width: 100%;
+        background-color: #3b5998;
+        color: #fff;
+        text-align: center;
+        vertical-align: center;
+        text-decoration: none;
+        font-size: 20px;
+        line-height: 51px;
+      }
+      .content{
+        padding: 12px;
+        background-color: #cdd3e5;
+        min-height: 1000px;
       }
 
     </style>
   </head>
   <body>
+    <form action="actCreation.php" method="POST" >
     <div id="banner">
   		<a href="home.html">
   		<img src="resources/sprucy.png" alt="sprucy">
   		</a>
   	</div>
     <br>
-    <form action="actCreation.php" method="POST" >
+    <br>
+    <div class="contentHead">Create New User</div>
+    <div class="content">
       <table>
         <tr>
           <td>
@@ -81,6 +99,6 @@
 
       </table>
     </form>
-
+  </div>
   </body>
 </HTML>
