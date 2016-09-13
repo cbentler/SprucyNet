@@ -22,6 +22,12 @@
     -moz-border-radius: 5px;
   }
 
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
   .panel select{
     border: none;
     background-color: #cdd3e5;
@@ -277,10 +283,11 @@ div.panel.show {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script>
     var billto = 1;
-
+    var addBillPay = true;
 
     function onLoad(){
       getUserTable();
+      getUserGrpTable();
       getUserDS();
       getUserGrpDS();
       getCats();
@@ -305,6 +312,21 @@ div.panel.show {
       req.open("get", "user.php", true);
       req.send();
     };
+
+//gets user group data for user group tab
+function getUserGrpTable(){
+  $.ajax({url: 'database.php',
+    data: {action: "usergrptable"},
+    type: 'POST',
+    dataType:'text',
+    error:function(error){console.log(error.responseText);},
+    success: function(action){
+      var HTMLText = '<tr><th>User Group Num</th><th>User Group Name</th><th>Group Type</th><th>Edit User Group</th></tr>';
+      HTMLText += action;
+      $("#usergrptable").html(HTMLText);
+    }
+    });
+  };
 
 //gets user data from database file
     function getUserDS(){
@@ -352,6 +374,26 @@ function getCats(){
       });
     };
 
+    function editUser(){
+      var userPop = 'The following changes will be committed upon submission of this dialouge.'
+      userPop += '<br><br>Maaaaaannn this is broke af';
+      $('#popText').html(userPop);
+      $('#modal').css("display", "block");
+    }
+
+    function editUserGrp(ugid){
+      $.ajax({url: 'database.php',
+        data: {'action': 'editusergrp', 'param': ugid},
+        type: 'POST',
+        dataType:'text',
+        success: function(data){
+          $('#popText').html(data);
+          $('#modal').css("display", "block");
+        },
+        error:function(error){console.log(error.responseText);}
+      });
+    }
+
 //Swtich between tabs
 		function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
@@ -381,6 +423,17 @@ function getCats(){
       }
       defaultBillUser(addID);
       billto = 1;
+      $('#userinput').val('default');
+      $('#usergrpinput').val('default');
+      $('#catInput').val('');
+      $('#amt').val('');
+      $('#amt').css("background-color","#cdd3e5");
+      $('#notes').val('');
+      $('#payuseriput').val('default');
+      $('#payamt').val('');
+      $('#payamt').css("background-color","#cdd3e5");
+      $('#paynotes').val('');
+
     };
 
 //sets default option to the Bill User button
@@ -447,6 +500,9 @@ function getCats(){
 
         var popBill = '';
         var popPay = '';
+        if(addBillPay == false){
+          alert('Please validate fields before proceeding!')
+        }else{
         if(billorPay == 'billAddBtn'){
           //bill add
           var cat = $('#catInput').val();
@@ -455,7 +511,7 @@ function getCats(){
             if(billto == 1){
               //user pay
               var user = $('#userinput').val();
-              if(amt == '' || user == 'default'){
+              if(amt == '' || user == 'default' || amt == 0){
                 alert('Please enter a user and/or amount.');
               }else{
               popBill = 'Are you sure you would like to submit a bill to <b>'+user+'</b> for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded:<br><b>'+note+'</b><br>';
@@ -465,7 +521,7 @@ function getCats(){
             }else if(billto == 2){
               //user group pay
               var usergrp = $('#usergrpinput').val();
-              if(amt == '' || usergrp == 'default'){
+              if(amt == '' || usergrp == 'default' || amt == 0){
                 alert('Please enter a usergroup and/or amount.');
               }else{
               popBill = 'Are you sure you would like to submit a bill to the <b>'+usergrp+'</b> group for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded:<br><b>'+note+'</b><br>';
@@ -480,7 +536,7 @@ function getCats(){
             var user = $('#payuserinput').val();
             var amt = $('#payamt').val();
             var note = $('#paynotes').val();
-            if(amt == '' || user == 'default'){
+            if(amt == '' || user == 'default' || amt == 0){
               alert('Please enter a user and/or amount.');
             }else{
             popPay = 'Are you sure you would like to record a payment for <b>'+user+'</b> for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded<br><b>'+note+'</b><br>';
@@ -492,6 +548,7 @@ function getCats(){
           }
 
         }
+      }
 
       function popExit(){
         $('#modal').css("display", "none");
@@ -503,22 +560,20 @@ function getCats(){
         }
       }
 
-      function editUser(){
-        var userPop = 'The following changes will be committed upon submission of this dialouge.'
-        userPop += '<br><br><table class="usertable"><tr><th>User Num</th><th>Username</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Reset Password</th></tr><tr><td>butts</td></tr><tr><td>butts2</td></tr></table>';
-        $('#popText').html(userPop);
-        $('#modal').css("display", "block");
-      }
+
 
       function formatCurrency(id, val){
-        alert(val+' '+id);
         var regex = /^\d+(?:\.\d{0,2})$/;
-        if(regex.test(val)){
-          alert('good');
+        var cur = Number(val);
+        cur = cur.toFixed(2);
+        if(regex.test(cur)){
           $('#'+id).css("background-color","#cdd3e5");
+          $('#'+id).val(cur);
+          addBillPay = true;
         }else{
           $('#'+id).css("background-color","#FF0000");
-          alert('#'+id);
+          alert('Invalid entry for amount. Note: only positive numbers are allowed.');
+          addBillPay = false;
         }
         if(id == 'amt'){
 
@@ -529,6 +584,15 @@ function getCats(){
         }
       }
 
+      function ugAddSelected(){
+
+      }
+
+      function ugRemoveSelected(){
+        var assigned = document.getElementById('assigned');
+        alert(assigned.selectedIndex);
+        assigned.remove(assigned.selectedIndex);
+      }
 
     </script>
   </head>
@@ -593,7 +657,7 @@ function getCats(){
                 </select>
               </td>
               <td>
-                <input type ="text" name="amt" id="amt"/>
+                <input type ="number" min="0.01" step="0.01" name="amt" id="amt"/>
               </td>
             </tr>
             <tr>
@@ -641,7 +705,7 @@ function getCats(){
                 </select>
               </td>
               <td>
-                <input type ="text" name="payamt" id="payamt"/>
+                <input type ="number" min="0.01" step="0.01" name="payamt" id="payamt"/>
               </td>
             </tr>
             <tr>
@@ -672,16 +736,6 @@ function getCats(){
           </tr>
         </table>
         </div>
-        <div id="modal" class="modal">
-            <div id="popContent" class="popContent">
-              <div id="popText">
-              </div>
-              <div style="text-align: right;">
-                <button type="button" class="popCancel" id="popCancel" onclick="popExit();">x</button>
-                <button type="submit" class="popSubmit" id="popSubmit">+</button>
-              </div>
-            </div>
-        </div>
 		</div>
 		<div id="tab2" class="tabcontent">
       <br>
@@ -693,8 +747,20 @@ function getCats(){
       </div>
 		</div>
 		<div id="tab3" class="tabcontent">
-			<p>User Groups</p>
+      <br>
+      <table class="usertable" id="usergrptable" name="usergrptable">
+      </table>
 		</div>
+    <div id="modal" class="modal">
+        <div id="popContent" class="popContent">
+          <div id="popText">
+          </div>
+          <div style="text-align: right;">
+            <button type="button" class="popCancel" id="popCancel" onclick="popExit();">x</button>
+            <button type="submit" class="popSubmit" id="popSubmit">+</button>
+          </div>
+        </div>
+    </div>
 	</div>
   </form>
   </body>
