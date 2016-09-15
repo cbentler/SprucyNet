@@ -14,7 +14,7 @@
         }
 
 
-        $sql = "SELECT * from user WHERE usernum > 0";
+        $sql = "SELECT * from user WHERE usernum > 0 AND active = 1";
         $result = $conn->query($sql);
 
 
@@ -23,7 +23,8 @@
              // output data of each row
              while($row = $result->fetch_assoc()) {
 
-                 $a = '<tr><td>'. $row["usernum"].'</td><td>'. $row["username"].'</td><td>'. $row["email"].'</td><td>'. $row["fname"].'</td><td><button type="button" class="editBtn" id="editBtn'. $row["usernum"].'" name="editBtn" onClick="editUser();"><img src="resources/pencil.png"></button></td></tr>';
+                 $a = '<tr><td>'. $row["usernum"].'</td><td id="username'. $row["usernum"].'">'. $row["username"].'</td><td id="email'. $row["usernum"].'">'. $row["email"].'</td><td id="fname'. $row["usernum"].'">'. $row["fname"].'</td>';
+                 $a .= '<td id="lname'. $row["usernum"].'">'.$row["lname"].'</td><td><button type="button" class="editBtn" id="editBtn'. $row["usernum"].'" name="editBtn" onClick="editUser(this.id);"><img src="resources/pencil.png"></button></td></tr>';
                  $var .= $a;
              }
 

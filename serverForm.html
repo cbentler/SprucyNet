@@ -184,6 +184,22 @@
 			background-color: #e6e6e6;
 			color: #8c8c8c;
 		}
+
+    .contentHead{
+      width: 100%;
+      background-color: #3b5998;
+      color: #fff;
+      text-align: center;
+      vertical-align: center;
+      text-decoration: none;
+      font-size: 20px;
+      line-height: 51px;
+    }
+    .content{
+      padding: 12px;
+      background-color: #cdd3e5;
+      min-height: 1000px;
+    }
 		</style>
     </head>
     <body onLoad="doOnLoad()">
@@ -195,6 +211,8 @@
       </div>
       <br>
       <br>
+      <div class="contentHead">Welcome Home!</div>
+      <div class="content">
         <fieldset>
             <legend>User Details</legend>
                 Requestor:
@@ -251,11 +269,6 @@
 				<td>
                     <input type="button" id="clear" value="Clear" onclick="clearKeys()">
                 </td>
-                <!--
-                <td>
-                    <input type="Button" value="I'm Feeling Lucky">
-                </td>
-                -->
             </tr>
             <tr id="seasonRow">
                     <td class="label">
@@ -331,7 +344,7 @@
 		<input type="text" id="dateReq" name="dateReq" hidden  />
 		<br>
         <input type="submit" value="Submit"/>
-
+      </div>
     </form>
     </body>
 </html>

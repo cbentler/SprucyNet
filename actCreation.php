@@ -12,14 +12,15 @@ if ($conn->connect_error) {
      die("Connection failed: " . $conn->connect_error);
    }
 
-   $sql = "INSERT INTO user (usernum, username, password, email, amtowed, fname, lname)
+   $sql = "INSERT INTO user (usernum, username, password, email, amtowed, fname, lname, active)
    SELECT maxnumval,
    \"{$_POST['username']}\",
    \"{$_POST['password']}\",
    \"{$_POST['email']}\",
    0,
    \"{$_POST['fname']}\",
-   \"{$_POST['lname']}\"
+   \"{$_POST['lname']}\",
+   1
 
 
    from

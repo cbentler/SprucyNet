@@ -124,6 +124,22 @@
   .usertable td {
     text-align: center;
   }
+  .ugmgmtTable th{
+    background-color: #3b5998;
+    color: white;
+  }
+  .ugmgmtTable td {
+    text-align: center;
+  }
+  .ugassign{
+    width: 100%;
+  }
+  .ugbtn{
+    color: #fff;
+    background-color: #3b5998;
+    width: 150px;
+    font-size: 16px;
+  }
 
   .billtable td{
     padding:18px;
@@ -278,12 +294,36 @@ div.panel.show {
     -moz-border-radius: 5px;
   }
 
+  .inputTable input{
+    border: none;
+    background-color: #cdd3e5;
+    padding: 4px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+  }
+
+  .inputTable{
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .userPop{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 800px;
+  }
+
+
+
   </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script>
     var billto = 1;
     var addBillPay = true;
+    var ugRemoveArr = [];
+    var ugAddArr = [];
 
     function onLoad(){
       getUserTable();
@@ -305,7 +345,7 @@ div.panel.show {
     function getUserTable(){
       var req = new XMLHttpRequest();
       req.onload = function(){
-        var HTMLText = '<tr><th>User Num</th><th>User Name</th><th>Email</th><th>First Name</th><th>Edit User</th></tr>';
+        var HTMLText = '<tr><th>User Num</th><th>User Name</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Edit User</th></tr>';
         HTMLText += this.responseText;
         $('#usertable').html(HTMLText);
       };
@@ -374,9 +414,16 @@ function getCats(){
       });
     };
 
-    function editUser(){
-      var userPop = 'The following changes will be committed upon submission of this dialouge.'
-      userPop += '<br><br>Maaaaaannn this is broke af';
+    function editUser(editbtnid){
+      var id = editbtnid.replace('editBtn','');
+      var un = document.getElementById('username'+id).innerHTML;
+      var email = document.getElementById('email'+id).innerHTML;
+      var fname = document.getElementById('fname'+id).innerHTML;
+      var lname = document.getElementById('lname'+id).innerHTML;
+      var userPop = '<div class="userPop">The following changes will be committed upon submission of this dialouge for user <b>'+un+'</b> (<b>#'+id+'</b>).<br><br>';
+      userPop += '<table class="inputTable"><tr><td>User Name:</td><td><input type="text" id="username" name="username" value="'+un+'"/></td></tr><tr><td>Email:</td><td><input type="email" id="email" name="email" value="'+email+'"/></td></tr>';
+      userPop += '<tr><td>First Name:</td><td><input type="text" id="fname" name="fname" value="'+fname+'"/></td></tr><tr><td>Last Name:</td><td><input type="text" id="lname" name="lname" value="'+lname+'"/></td></tr>';
+      userPop += '<tr><td>Reset Password</td><td><input type="checkbox" id="password" name="password" value="1"/></td></tr><tr><td>Deactivate User</td><td><input name="deactivate" type="checkbox" value="1"/></td></tr></table></div>';
       $('#popText').html(userPop);
       $('#modal').css("display", "block");
     }
@@ -387,11 +434,75 @@ function getCats(){
         type: 'POST',
         dataType:'text',
         success: function(data){
-          $('#popText').html(data);
+          var userarray = $.parseJSON(data);
+
+          var ugmgmt = '<table class="ugmgmtTable"><th>Available</th><th>'+'**'+userarray[2]+'**'+'</th><th>Assigned</th> <tr><td colspan="3" style="height: 12px;"></td></tr> <tr><td rowspan="2"><select size="4" class="ugassign" id="available">'+userarray[0]+'</select></td> <td><button type="button" id="add" class="ugbtn" onClick="ugAddSelected();">'+'Add >>'+'</button></td>';
+          ugmgmt += '<td rowspan="2"><select size="4" class="ugassign" id="assigned">'+userarray[1]+'</select></td></tr>';
+          ugmgmt += '<tr><td><button id="remove" type="button" onClick="ugRemoveSelected();"class="ugbtn">'+'<< Remove'+'</button></td></tr> <tr><td colspan="3" style="height: 12px;"></td></tr></table>';
+          $('#popText').html(ugmgmt);
           $('#modal').css("display", "block");
         },
         error:function(error){console.log(error.responseText);}
       });
+      ugRemoveArr = [];
+      ugAddArr = [];
+    }
+
+    function ugAddSelected(){
+
+      var userText = $("#available option:selected").text();
+      var userVal = $("#available option:selected").val();
+
+      if(userVal){
+        if($.inArray(userVal, ugAddArr) === -1){
+          if($.inArray(userVal, ugRemoveArr) === -1){
+            ugAddArr.push(userVal);
+          }else{
+            ugRemoveArr = $.grep(ugRemoveArr, function(a){
+              return a !== userVal;
+            })
+            ugAddArr.push(userVal);
+          }
+        }else{
+          if($.inArray(userVal, ugRemoveArr) === -1){
+          }else{
+            alert("An error has occurred.  Please recycle the webpage.");
+            console.log("Value in both arrays!");
+          }
+        }
+
+      $("#assigned").append($("<option></option>").attr("value",userVal).text(userText));
+      $("#available option:selected").remove();
+    }
+  }
+
+    function ugRemoveSelected(){
+
+      var userText = $("#assigned option:selected").text();
+      var userVal = $("#assigned option:selected").val();
+
+      if(userVal){
+        if($.inArray(userVal, ugRemoveArr) === -1){
+          if($.inArray(userVal, ugAddArr) === -1){
+            ugRemoveArr.push(userVal);
+          }else{
+            ugAddArr = $.grep(ugAddArr, function(a){
+              return a !== userVal;
+            })
+            ugRemoveArr.push(userVal);
+          }
+        }else{
+          if($.inArray(userVal, ugAddArr) === -1){
+          }else{
+            alert("An error has occurred.  Please recycle the webpage.");
+            console.log("Value in both arrays!");
+          }
+        }
+
+        $("#available").append($("<option></option>").attr("value",userVal).text(userText));
+        $("#assigned option:selected").remove();
+      }else{
+      }
     }
 
 //Swtich between tabs
@@ -584,15 +695,8 @@ function getCats(){
         }
       }
 
-      function ugAddSelected(){
 
-      }
 
-      function ugRemoveSelected(){
-        var assigned = document.getElementById('assigned');
-        alert(assigned.selectedIndex);
-        assigned.remove(assigned.selectedIndex);
-      }
 
     </script>
   </head>

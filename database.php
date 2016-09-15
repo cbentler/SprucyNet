@@ -92,25 +92,30 @@ class query{
     $conn = new mysqli($servername, $username, $password, $dbname);
 
 //out of user group
-    $sql1 = "SELECT username from user where usernum not in (select usernum from uxug where usergrpnum = $param)";
+    $sql1 = "SELECT usernum, username from user where usernum not in (select usernum from uxug where usergrpnum = $param) and active = 1";
     $result1 = $conn->query($sql1);
-    $optHTML = '<select multiple="multiple" class="ugassign" id="available">';
+    $optHTML = '';
     while($row = $result1->fetch_assoc()){
-      $opt = '<option value="'.$row["username"].'">'.$row["username"].'</option>';
+      $opt = '<option value="'.$row["usernum"].'">'.$row["username"].'</option>';
       $optHTML .= $opt;
     }
-//add button
-      $optHTML .= '</select><button type="button" id="add" class="ugbtn" onClick="ugAddSelected();">Add</button><button id="remove" type="button" onClick="ugRemoveSelected();"class="ugbtn">Remove</button><select multiple="multiple" class="ugassign" id="assigned">';
 
 //in user group
-    $sql2 ="SELECT username from user where usernum in (select usernum from uxug where usergrpnum = $param)";
+    $sql2 ="SELECT usernum, username from user where usernum in (select usernum from uxug where usergrpnum = $param)";
     $result2 = $conn->query($sql2);
+    $optHTML2 = '';
     while($row = $result2->fetch_assoc()){
-      $opt = '<option value="'.$row["username"].'">'.$row["username"].'</option>';
-      $optHTML .= $opt;
+      $opt = '<option value="'.$row["usernum"].'">'.$row["username"].'</option>';
+      $optHTML2 .= $opt;
     }
 
-    echo ($optHTML);
+//ugname
+    $sql3 ="SELECT usergrpname from usergrp where usergrpnum = $param";
+    $result3 = $conn->query($sql3);
+    $row = $result3->fetch_assoc();
+    $optHTML3 = $row["usergrpname"];
+
+    echo json_encode(array($optHTML, $optHTML2, $optHTML3));
     $conn->close();
   }
 

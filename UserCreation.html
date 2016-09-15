@@ -20,6 +20,15 @@
       margin: 0px;
       }
 
+      input{
+        border: none;
+        background-color: #cdd3e5;
+        padding: 4px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+      }
+
       .contentHead{
         width: 100%;
         background-color: #3b5998;
@@ -28,13 +37,46 @@
         vertical-align: center;
         text-decoration: none;
         font-size: 20px;
-        line-height: 51px;
+        height: 51px;
       }
       .content{
-        padding: 12px;
         background-color: #cdd3e5;
         min-height: 1000px;
       }
+      .contentForm{
+        background-color: white;
+        width: 450px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        min-height: 300px;
+      }
+      .contentFormHeader{
+        color: #fff;
+        background-color: #3b5998;
+        width: 100%;
+        line-height: 42px;
+
+      }
+      .inputTable{
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .inputTable td{
+        padding: 3px;
+      }
+      .submitBtn{
+        padding: 8px;
+        background-color: #3b5998;
+        text-align: center;
+        color: #FFF;
+        font-size: 12pt;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+      }
+
+
 
     </style>
   </head>
@@ -47,9 +89,14 @@
   	</div>
     <br>
     <br>
-    <div class="contentHead">Create New User</div>
+    <div class="contentHead"></div>
     <div class="content">
-      <table>
+      <br>
+      <br>
+      <div class="contentForm">
+        <div class="contentFormHeader">Enter your user information</div>
+        <br>
+      <table class="inputTable">
         <tr>
           <td>
             User Name:
@@ -63,7 +110,7 @@
             Email:
           </td>
           <td>
-            <input type="text" id="email" name="email"/>
+            <input type="email" id="email" name="email"/>
           </td>
         </tr>
         <tr>
@@ -71,7 +118,7 @@
             Password:
           </td>
           <td>
-            <input type="text" id="password" name="password"/>
+            <input type="password" id="password" name="password"/>
           </td>
         <tr>
           <td>
@@ -90,14 +137,18 @@
           </td>
         </tr>
         <tr>
+          <td colspan="2" style="height: 10px;"></td>
+        </tr>
+        <tr>
           <td>
-            <input type="submit" id="submit"/>
           </td>
-          <td>
+          <td style="text-align: right;">
+            <button type="submit" id="submit" class="submitBtn">Submit</button>
           </td>
         </tr>
 
       </table>
+    </div>
     </form>
   </div>
   </body>
