@@ -1,4 +1,7 @@
 <!--SprucyNet v0.0.4 9-10-16-->
+<?php
+   include('session.php');
+?>
 
 <HTML>
 
@@ -324,6 +327,7 @@ div.panel.show {
     var addBillPay = true;
     var ugRemoveArr = [];
     var ugAddArr = [];
+    var globalPop = '';
 
     function onLoad(){
       getUserTable();
@@ -425,6 +429,7 @@ function getCats(){
       userPop += '<tr><td>First Name:</td><td><input type="text" id="fname" name="fname" value="'+fname+'"/></td></tr><tr><td>Last Name:</td><td><input type="text" id="lname" name="lname" value="'+lname+'"/></td></tr>';
       userPop += '<tr><td>Reset Password</td><td><input type="checkbox" id="password" name="password" value="1"/></td></tr><tr><td>Deactivate User</td><td><input name="deactivate" type="checkbox" value="1"/></td></tr></table></div>';
       $('#popText').html(userPop);
+      globalPop = 'editu';
       $('#modal').css("display", "block");
     }
 
@@ -440,6 +445,7 @@ function getCats(){
           ugmgmt += '<td rowspan="2"><select size="4" class="ugassign" id="assigned">'+userarray[1]+'</select></td></tr>';
           ugmgmt += '<tr><td><button id="remove" type="button" onClick="ugRemoveSelected();"class="ugbtn">'+'<< Remove'+'</button></td></tr> <tr><td colspan="3" style="height: 12px;"></td></tr></table>';
           $('#popText').html(ugmgmt);
+          globalPop = 'editug';
           $('#modal').css("display", "block");
         },
         error:function(error){console.log(error.responseText);}
@@ -627,6 +633,7 @@ function getCats(){
               }else{
               popBill = 'Are you sure you would like to submit a bill to <b>'+user+'</b> for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded:<br><b>'+note+'</b><br>';
               $('#popText').html(popBill);
+              globalPop = 'bill';
               $('#modal').css("display", "block");
               }
             }else if(billto == 2){
@@ -637,6 +644,7 @@ function getCats(){
               }else{
               popBill = 'Are you sure you would like to submit a bill to the <b>'+usergrp+'</b> group for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded:<br><b>'+note+'</b><br>';
               $('#popText').html(popBill);
+              globalPop = 'billgrp';
               $('#modal').css("display", "block");
               }
             }else{
@@ -652,6 +660,7 @@ function getCats(){
             }else{
             popPay = 'Are you sure you would like to record a payment for <b>'+user+'</b> for the amount of <b>$'+amt+'</b>?<br><br>The following notes will also be recorded<br><b>'+note+'</b><br>';
             $('#popText').html(popPay);
+            globalPop = 'pay';
             $('#modal').css("display", "block");
             }
           }else {
@@ -662,12 +671,38 @@ function getCats(){
       }
 
       function popExit(){
+        globalPop = '';
         $('#modal').css("display", "none");
       }
 
       window.onclick = function(event){
         if (event.target == modal){
+          globalPop = '';
           $('#modal').css("display", "none");
+        }
+      }
+
+      function popGo(){
+        switch(globalPop){
+          case "bill":
+            alert("bill")
+            break;
+
+          case "billgrp":
+            alert(globalPop)
+            break;
+
+          case "editu":
+            alert(globalPop)
+            break;
+
+          case "editug":
+            alert(globalPop)
+            break;
+
+          case "pay":
+            alert(globalPop)
+            break;
         }
       }
 
@@ -703,9 +738,12 @@ function getCats(){
   <body onload="onLoad()">
   <form>
 	<div id="banner">
-		<a href="home.html">
+		<a href="home.php">
 		<img src="resources/sprucy.png" alt="sprucy">
 		</a>
+    <a href="logout.php" style="float: right;">
+      <img src="resources/logout.png" alt="logout">
+    </a>
 	</div>
 	<br>
 	<br>
@@ -847,7 +885,7 @@ function getCats(){
       </table>
       <br>
       <div style="text-align: right;">
-        <input id="newUser" name="newUser" class="userCreationLink" type="button" value="Create New User" onclick="location.href='UserCreation.html'" />
+        <input id="newUser" name="newUser" class="userCreationLink" type="button" value="Create New User" onclick="location.href='UserCreation.php'" />
       </div>
 		</div>
 		<div id="tab3" class="tabcontent">
@@ -861,7 +899,7 @@ function getCats(){
           </div>
           <div style="text-align: right;">
             <button type="button" class="popCancel" id="popCancel" onclick="popExit();">x</button>
-            <button type="submit" class="popSubmit" id="popSubmit">+</button>
+            <button type="button" class="popSubmit" id="popSubmit" onclick="popGo();">+</button>
           </div>
         </div>
     </div>

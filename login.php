@@ -1,8 +1,38 @@
+<?php
+  include("config.php");
+  session_start();
+
+  if($_SERVER["REQUEST_METHOD"] == "POST") {
+   // username and password sent from form
+
+   $myusername = mysqli_real_escape_string($db,$_POST['username']);
+   $mypassword = mysqli_real_escape_string($db,$_POST['password']);
+
+   $sql = "SELECT usernum FROM user WHERE username = '$myusername' and password = '$mypassword'";
+   $result = mysqli_query($db,$sql);
+   $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+   //$active = $row['active'];
+
+   $count = mysqli_num_rows($result);
+
+   // If result matched $myusername and $mypassword, table row must be 1 row
+
+   if($count == 1) {
+      //session_register("myusername");
+      $_SESSION['login_user'] = $myusername;
+
+      header("location: home.php");
+   }else {
+      $error = "Your Login Name or Password is invalid";
+   }
+}
+?>
+
 <!--SprucyNet v0.0.4 9-10-16-->
 
 <HTML>
   <head>
-    <title>SprucyNet Account Creation</title>
+    <title>SprucyNet Login</title>
     <link rel="icon" href="resources/favicon.png">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script>
@@ -49,7 +79,7 @@
         margin-left: auto;
         margin-right: auto;
         text-align: center;
-        min-height: 300px;
+
       }
       .contentFormHeader{
         color: #fff;
@@ -81,11 +111,9 @@
     </style>
   </head>
   <body>
-    <form action="actCreation.php" method="POST" >
+    <form method="post">
     <div id="banner">
-  		<a href="home.html">
   		<img src="resources/sprucy.png" alt="sprucy">
-  		</a>
   	</div>
     <br>
     <br>
@@ -94,7 +122,7 @@
       <br>
       <br>
       <div class="contentForm">
-        <div class="contentFormHeader">Enter your user information</div>
+        <div class="contentFormHeader">Enter Login Information</div>
         <br>
       <table class="inputTable">
         <tr>
@@ -105,14 +133,7 @@
             <input type="text" id="username" name="username"/>
           </td>
         </tr>
-        <tr>
-          <td>
-            Email:
-          </td>
-          <td>
-            <input type="email" id="email" name="email"/>
-          </td>
-        </tr>
+
         <tr>
           <td>
             Password:
@@ -120,22 +141,8 @@
           <td>
             <input type="password" id="password" name="password"/>
           </td>
-        <tr>
-          <td>
-            First Name:
-          </td>
-          <td>
-            <input type="text" id="fname" name="fname"/>
-          </td>
         </tr>
-        <tr>
-          <td>
-            Last Name:
-          </td>
-          <td>
-            <input type="text" id="lname" name="lname"/>
-          </td>
-        </tr>
+
         <tr>
           <td colspan="2" style="height: 10px;"></td>
         </tr>
@@ -143,11 +150,11 @@
           <td>
           </td>
           <td style="text-align: right;">
-            <button type="submit" id="submit" class="submitBtn">Submit</button>
+            <button type="submit" id="submit" class="submitBtn">Login</button>
           </td>
         </tr>
-
       </table>
+      <br>
     </div>
     </form>
   </div>

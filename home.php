@@ -1,4 +1,8 @@
 <!--SprucyNet v0.0.4 9-10-16-->
+<?php
+   include('session.php');
+?>
+
 
 <html>
   <head>
@@ -54,13 +58,16 @@
   </head>
   <body>
     <div id="banner">
-  		<a href="home.html">
+  		<a href="home.php">
   		    <img src="resources/sprucy.png" alt="sprucy">
   		</a>
+      <a href="logout.php" style="float: right;">
+        <img src="resources/logout.png" alt="logout">
+      </a>
   	</div>
     <br>
     <br>
-    <div class="contentHead">Welcome Home!</div>
+    <div class="contentHead">Welcome home <?php echo $login_session; ?>!</div>
     <div class="content">
     <br>
     <br>
@@ -80,7 +87,7 @@
         </a>
         </td>
         <td>
-          <a href="admin.html">
+          <a href="admin.php">
             <img class="link" src="resources/admin.png">
           </a>
         </td>

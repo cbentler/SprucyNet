@@ -1,4 +1,7 @@
 <!--SprucyNet v0.0.4 9-10-16-->
+<?php
+   include('session.php');
+?>
 
 <!DOCTYPE html>
 <html>
@@ -271,8 +274,11 @@
     <body onLoad="doOnLoad()">
     <form action="processingScript.php" method="POST">
       <div id="banner">
-        <a href="home.html">
+        <a href="home.php">
             <img src="resources/sprucy.png" alt="sprucy">
+        </a>
+        <a href="logout.php" style="float: right;">
+          <img src="resources/logout.png" alt="logout">
         </a>
       </div>
       <br>
@@ -397,7 +403,7 @@
           <br>
         </div>
 		<input type="text" id="dateReq" name="dateReq" hidden  />
-    <input id="requestor" name="requestor" type="text" hidden />
+    <input id="requestor" name="requestor" type="text" value="<?php echo $login_session; ?>" hidden/>
 		<br>
     <div style="text-align: right;">
         <button type="submit" id="submit" class="submitBtn">Submit</button>

@@ -44,7 +44,10 @@ if ($conn->connect_error) {
 
    $conn->close();
 
-   header('Location: home.html');
+   if(!isset($_SESSION['login_user'])){
+      header("location:login.php");
+   }
+   header('Location: home.php');
    exit();
 
 ?>

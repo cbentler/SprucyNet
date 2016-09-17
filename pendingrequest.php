@@ -1,4 +1,7 @@
 <!--SprucyNet v0.0.4 9-10-16-->
+<?php
+   include('session.php');
+?>
 
 <!DOCTYPE html>
 <html>
@@ -177,14 +180,21 @@
         }
       }
 
+      function popGo(){
+
+      }
+
 		</script>
     <link rel="icon" href="/sprucynet/favicon.png">
 	</head>
 	<body>
     <div id="banner">
-  		<a href="home.html">
+  		<a href="home.php">
   		    <img src="resources/sprucy.png" alt="sprucy">
   		</a>
+      <a href="logout.php" style="float: right;">
+        <img src="resources/logout.png" alt="logout">
+      </a>
   	</div>
     <br>
     <br>
@@ -238,7 +248,7 @@
 			</table>
 		<br>
     <div style="text-align: right;">
-		<input id="submitNew" name="submitNew" class="requestButtons" type="button" value="New Request" onclick="location.href='serverForm.html'" />
+		<input id="submitNew" name="submitNew" class="requestButtons" type="button" value="New Request" onclick="location.href='serverForm.php'" />
     <input id="compReq" name="compReq" class="requestButtons" type="button" onclick="compReq()" value="Complete Requests"/>
   </div>
     </div>
@@ -248,7 +258,7 @@
           </div>
           <div style="text-align: right;">
             <button type="button" class="popCancel" id="popCancel" onclick="popExit();">x</button>
-            <button type="submit" class="popSubmit" id="popSubmit">+</button>
+            <button type="button" class="popSubmit" id="popSubmit" onclick="popGo();">+</button>
           </div>
         </div>
     </div>
