@@ -181,7 +181,21 @@
       }
 
       function popGo(){
-
+        var completed = '';
+        compArr.sort();
+        for (i=0; i<compArr.length - 1; i++){
+          completed += compArr[i]+",";
+        }
+        completed += compArr[compArr.length-1];
+        $.ajax({url: 'popProcessor.php',
+          data: {action: "request", compArr: completed},
+          type: 'POST',
+          dataType:'text',
+          error:function(error){console.log(error.responseText);},
+          success: function(action){
+            window.location.assign("pendingrequest.php");
+          }
+          });
       }
 
 		</script>

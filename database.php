@@ -11,11 +11,11 @@ class query{
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    $sql = "SELECT username from user where usernum > 0";
+    $sql = "SELECT username, usernum from user where usernum > 0";
     $result = $conn->query($sql);
     $optHTML = '<option value="default"></option>';
     while($row = $result->fetch_assoc()){
-      $opt = '<option value="'.$row["username"].'">'.$row["username"].'</option>';
+      $opt = '<option value="'.$row["usernum"].'">'.$row["username"].'</option>';
       $optHTML .= $opt;
     }
     echo ($optHTML);
@@ -31,11 +31,11 @@ class query{
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    $sql = "SELECT usergrpname from usergrp where usergrpnum > 0";
+    $sql = "SELECT usergrpname, usergrpnum from usergrp where usergrpnum > 0";
     $result = $conn->query($sql);
     $optHTML = '<option value="default"></option>';
     while($row = $result->fetch_assoc()){
-      $opt = '<option value="'.$row["usergrpname"].'">'.$row["usergrpname"].'</option>';
+      $opt = '<option value="'.$row["usergrpnum"].'">'.$row["usergrpname"].'</option>';
       $optHTML .= $opt;
     }
     echo ($optHTML);

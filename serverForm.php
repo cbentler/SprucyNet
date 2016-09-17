@@ -165,6 +165,20 @@
 
 			}
 
+      function formValidation(){
+        var type = $("#mediaType").val();
+        var title = $("#title").val();
+        if(type == '' || type == 'default'){
+          alert("Select a type, yo!");
+          return false;
+        }else if(title == ''){
+          alert("Put in a title, yo!");
+          return false;
+        }else{
+          return true;
+        }
+      }
+
 
         </script>
         <style>
@@ -272,7 +286,7 @@
 		</style>
     </head>
     <body onLoad="doOnLoad()">
-    <form action="processingScript.php" method="POST">
+    <form action="processingScript.php" onsubmit="return formValidation();" method="POST">
       <div id="banner">
         <a href="home.php">
             <img src="resources/sprucy.png" alt="sprucy">

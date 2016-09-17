@@ -627,7 +627,7 @@ function getCats(){
           var note = $('#notes').val();
             if(billto == 1){
               //user pay
-              var user = $('#userinput').val();
+              var user = $('#userinput option:selected').text();
               if(amt == '' || user == 'default' || amt == 0){
                 alert('Please enter a user and/or amount.');
               }else{
@@ -638,7 +638,7 @@ function getCats(){
               }
             }else if(billto == 2){
               //user group pay
-              var usergrp = $('#usergrpinput').val();
+              var usergrp = $('#usergrpinput option:selected').text();
               if(amt == '' || usergrp == 'default' || amt == 0){
                 alert('Please enter a usergroup and/or amount.');
               }else{
@@ -652,7 +652,7 @@ function getCats(){
             }
           }else if(billorPay == 'payAddBtn'){
             //pay add
-            var user = $('#payuserinput').val();
+            var user = $('#payuserinput option:selected').text();
             var amt = $('#payamt').val();
             var note = $('#paynotes').val();
             if(amt == '' || user == 'default' || amt == 0){
@@ -683,13 +683,31 @@ function getCats(){
       }
 
       function popGo(){
+        var lendor = '';
+        var debtor = '';
+        var amt = '';
+        var notes = '';
         switch(globalPop){
           case "bill":
-            alert("bill")
+          lendor = <?php echo $_SESSION['usernum'] ?>;
+          debtor = $('#userinput option:selected').val();
+          amt = $('#amt').val();
+          notes = $('#notes').val();
+
+          $.ajax({url: 'popProcessor.php',
+            data: {action: "bill", lendor: lendor, debtor: debtor, amt: amt, notes: notes},
+            type: 'POST',
+            dataType:'text',
+            error:function(error){console.log(error.responseText);},
+            success: function(action){
+              window.location.assign("admin.php");
+            }
+            });
             break;
 
           case "billgrp":
-            alert(globalPop)
+          alert("non functional atm")
+            //alert(globalPop)
             break;
 
           case "editu":

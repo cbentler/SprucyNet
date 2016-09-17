@@ -99,7 +99,7 @@
             User Name:
           </td>
           <td>
-            <input type="text" id="username" name="username"/>
+            <input type="text" id="username" name="username" required/>
           </td>
         </tr>
         <tr>
@@ -107,7 +107,7 @@
             Email:
           </td>
           <td>
-            <input type="email" id="email" name="email"/>
+            <input type="email" id="email" name="email" required/>
           </td>
         </tr>
         <tr>
@@ -115,14 +115,14 @@
             Password:
           </td>
           <td>
-            <input type="password" id="password" name="password"/>
+            <input type="password" id="password" name="password" required/>
           </td>
         <tr>
           <td>
             First Name:
           </td>
           <td>
-            <input type="text" id="fname" name="fname"/>
+            <input type="text" id="fname" name="fname" required/>
           </td>
         </tr>
         <tr>
@@ -130,7 +130,7 @@
             Last Name:
           </td>
           <td>
-            <input type="text" id="lname" name="lname"/>
+            <input type="text" id="lname" name="lname" required/>
           </td>
         </tr>
         <tr>
