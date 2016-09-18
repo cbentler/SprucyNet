@@ -328,6 +328,8 @@ div.panel.show {
     var ugRemoveArr = [];
     var ugAddArr = [];
     var globalPop = '';
+    var processing = '<div style="text-align: center;"><img src="resources/processing.png"></div>';
+    var ugnum = '';
 
     function onLoad(){
       getUserTable();
@@ -425,15 +427,16 @@ function getCats(){
       var fname = document.getElementById('fname'+id).innerHTML;
       var lname = document.getElementById('lname'+id).innerHTML;
       var userPop = '<div class="userPop">The following changes will be committed upon submission of this dialouge for user <b>'+un+'</b> (<b>#'+id+'</b>).<br><br>';
-      userPop += '<table class="inputTable"><tr><td>User Name:</td><td><input type="text" id="username" name="username" value="'+un+'"/></td></tr><tr><td>Email:</td><td><input type="email" id="email" name="email" value="'+email+'"/></td></tr>';
+      userPop += '<table class="inputTable"><tr><td>User Name:</td><td><input type="text" id="username" name="username" value="'+un+'"/><input type="text" id="usernum" hidden value ="'+id+'"/></td></tr><tr><td>Email:</td><td><input type="email" id="email" name="email" value="'+email+'"/></td></tr>';
       userPop += '<tr><td>First Name:</td><td><input type="text" id="fname" name="fname" value="'+fname+'"/></td></tr><tr><td>Last Name:</td><td><input type="text" id="lname" name="lname" value="'+lname+'"/></td></tr>';
-      userPop += '<tr><td>Reset Password</td><td><input type="checkbox" id="password" name="password" value="1"/></td></tr><tr><td>Deactivate User</td><td><input name="deactivate" type="checkbox" value="1"/></td></tr></table></div>';
+      userPop += '<tr><td>Reset Password</td><td><input type="checkbox" id="password" name="password" value="1"/></td></tr><tr><td>Deactivate User</td><td><input id="deactivate" name="deactivate" type="checkbox" value="1"/></td></tr></table></div>';
       $('#popText').html(userPop);
       globalPop = 'editu';
       $('#modal').css("display", "block");
     }
 
     function editUserGrp(ugid){
+      ugnum = ugid;
       $.ajax({url: 'database.php',
         data: {'action': 'editusergrp', 'param': ugid},
         type: 'POST',
@@ -693,7 +696,7 @@ function getCats(){
           debtor = $('#userinput option:selected').val();
           amt = $('#amt').val();
           notes = $('#notes').val();
-
+          $('#popContent').html(processing);
           $.ajax({url: 'popProcessor.php',
             data: {action: "bill", lendor: lendor, debtor: debtor, amt: amt, notes: notes},
             type: 'POST',
@@ -711,11 +714,56 @@ function getCats(){
             break;
 
           case "editu":
-            alert(globalPop)
+          var usernum = $('#usernum').val();
+          var username = $('#username').val();
+          var email = $('#email').val();
+          var fname = $('#fname').val();
+          var lname = $('#lname').val();
+          var deactivate = '';
+          var pwreset = '';
+          if($('#password').is(':checked')){
+            pwreset = "true";
+          }
+          if($('#deactivate').is(':checked')){
+            deactivate = "true";
+          }
+          $('#popContent').html(processing);
+          $.ajax({url: 'popProcessor.php',
+            data: {action: "editu", usernum: usernum, username: username, email: email, fname: fname, lname: lname, pwreset : pwreset, deactivate : deactivate},
+            type: 'POST',
+            dataType:'text',
+            error:function(error){console.log(error.responseText);},
+            success: function(action){
+              window.location.assign("admin.php");
+            }
+            });
             break;
 
           case "editug":
-            alert(globalPop)
+          alert(globalPop);
+            var removeUsers = '';
+            var addUsers;
+            if(ugRemoveArr.length > 0){
+              for (i=0; i<ugRemoveArr.length -1; i++){
+                removeUsers += ugRemoveArr[i] + ",";
+              }
+              removeUsers += ugRemoveArr[ugRemoveArr.length -1];
+            }
+            if(ugAddArr.length > 0){
+              for (i=0; i<ugAddArr.length -1; i++){
+                addUsers += ugAddArr[i] + ",";
+              }
+              addUsers += ugAddArr[ugAddArr.length -1];
+            }
+            $.ajax({url: 'popProcessor.php',
+              data: {action: "editu", ugnum : ugnum, addusers: ugAddArr, removeusers : ugRemoveArr},
+              type: 'POST',
+              dataType:'text',
+              error:function(error){console.log(error.responseText);},
+              success: function(action){
+                //window.location.assign("admin.php");
+              }
+            });
             break;
 
           case "pay":

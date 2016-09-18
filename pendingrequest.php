@@ -139,6 +139,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 		<script type="text/javascript">
       var compArr = [];
+      var processing = '<div style="text-align: center;"><img src="resources/processing.png"></div>';
       function q(btnID){
         $('#'+btnID).toggleClass("btnSelected");
         if($('#'+btnID).hasClass("btnSelected")){
@@ -187,6 +188,7 @@
           completed += compArr[i]+",";
         }
         completed += compArr[compArr.length-1];
+        $('#popContent').html(processing);
         $.ajax({url: 'popProcessor.php',
           data: {action: "request", compArr: completed},
           type: 'POST',

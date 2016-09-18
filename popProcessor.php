@@ -16,11 +16,11 @@ function onLoad(){
              break;
 
            case "editu":
-             $this->
+             $this->editUser();
              break;
 
            case "editug":
-             $this->
+             $this->UserGroup();
              break;
 
            case "pay":
@@ -47,7 +47,8 @@ function onLoad(){
          $getSql = "SELECT lendor, amt from tab where lendor = $lendor and debtor = $debtor";
          $iniAmt = $db->query($getSql);
          $row = $iniAmt->fetch_assoc();
-         if($row.["lendor"]){
+         $numrows = mysql_num_rows($iniAmt);
+         if($numrows = 1){
            $total = $row["amt"] + $addAmt;
            $updateSql = "UPDATE tab set amt = $total where lendor = $lendor and debtor = $debtor";
            $result = $db->query($updateSql);
@@ -59,6 +60,41 @@ function onLoad(){
          }
          $db->close();
        }
+    }
+
+    function editUser(){
+      include('config.php');
+      if($db->connect_error){
+        die("Connection failed: ".$db->connect_error);
+      }else{
+        $usernum = $_POST["usernum"];
+        $username = $_POST["username"];
+        $email = $_POST["email"];
+        $fname = $_POST["fname"];
+        $lname = $_POST["lname"];
+        $pwreset = $_POST["pwreset"];
+        $deactivate = $_POST["deactivate"];
+
+        if($deactivate !== ''){
+          $deactivateSql = "UPDATE user set active = 0 where usernum = $usernum";
+          $result = $db->query($deactivateSql);
+        }else{
+          $userSql = "UPDATE user set username = '$username', email = '$email', fname = '$fname', lname = '$lname'  where usernum = $usernum";
+          $result = $db->query($userSql);
+          if($pwreset !== ''){
+            $pwSql = "UPDATE user set password = 'password' where usernum = $usernum";
+            $pw = $db->query($pwSql);
+          }
+        }
+      $db->close();
+      }
+    }
+
+    function UserGroup(){
+      $ugnum = $_POST["ugnum"];
+      $addArray = array($_POST["addusers"]);
+      $removeArray = array($_POST["removeusers"]);
+
     }
 
     function compReq(){
