@@ -62,12 +62,46 @@ function onLoad(){
        }
     }
 
+    function UserGroup(){
+      include('config.php');
+      if($db->connect_error){
+        die("Connection failed: ".$db->connect_error);
+      }else{
+        $ugnum = $_POST["ugnum"];
+        $addList = $_POST["addusers"];
+        $addArray = explode(',',$addList);
+        $removeList = $_POST["removeusers"];
+        $removeArray = explode(',',$removeList);
+        if($addList !== ''){
+          for($i = 0; $i < count($addArray); $i++){
+            $stmt = $db->prepare("INSERT into uxug ('usergrpnum', 'usernum') VALUES(:ugnum, :usernum)");
+            $stmt->execute(array(
+              ':ugnum' => $ugnum,
+              ':usernum' => $addArray[$i]
+            ));
+          }
+        }
+        if($removeList !== ''){
+          for($i = 0; $i < count($removeArray); $i++){
+            $stmt = $db->prepare("DELETE from uxug where usergrpnum = :ugnum and usernum = :usernum)");
+            $stmt->execute(array(
+              ':ugnum' => $ugnum,
+              ':usernum' => $removeArray[$i]
+            ));
+          }
+        }
+      }
+      $db->close();
+
+    }
+
     function editUser(){
       include('config.php');
       if($db->connect_error){
         die("Connection failed: ".$db->connect_error);
       }else{
-        $usernum = $_POST["usernum"];
+        //$usernum = $_POST["usernum"];
+        $usernum = 10;
         $username = $_POST["username"];
         $email = $_POST["email"];
         $fname = $_POST["fname"];
@@ -76,26 +110,30 @@ function onLoad(){
         $deactivate = $_POST["deactivate"];
 
         if($deactivate !== ''){
-          $deactivateSql = "UPDATE user set active = 0 where usernum = $usernum";
-          $result = $db->query($deactivateSql);
+          $query = "UPDATE user set active = 0 where usernum = :usernum";
+          $deactivateSql = $db->prepare($query);
+          $deactivateSql->bindValue(':usernum', $usernum);
+          $deactivateSql->execute();
         }else{
-          $userSql = "UPDATE user set username = '$username', email = '$email', fname = '$fname', lname = '$lname'  where usernum = $usernum";
-          $result = $db->query($userSql);
+          $userSql = $db->prepare("UPDATE user set username = :username, email = :email, fname = :fname, lname = :lname  where usernum = :usernum");
+          $userSql->execute(array(
+            ":username" => $username,
+            ":email" => $email,
+            ":fname" => $fname,
+            ":lname" => $lname,
+            ":usernum" => $usernum
+          ));
           if($pwreset !== ''){
-            $pwSql = "UPDATE user set password = 'password' where usernum = $usernum";
-            $pw = $db->query($pwSql);
+            $pwSql->prepare("UPDATE user set password = 'password' where usernum = :usernum");
+            $pwSql->bindValue(':usernum', $usernum);
+            $pwSql->execute();
           }
         }
-      $db->close();
       }
+      $db->close();
     }
 
-    function UserGroup(){
-      $ugnum = $_POST["ugnum"];
-      $addArray = array($_POST["addusers"]);
-      $removeArray = array($_POST["removeusers"]);
 
-    }
 
     function compReq(){
       include ('config.php');

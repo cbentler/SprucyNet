@@ -1,6 +1,6 @@
 <!--SprucyNet v0.0.4 9-10-16-->
 <?php
-   include('session.php');
+   //include('session.php');
 ?>
 
 <HTML>
@@ -734,7 +734,7 @@ function getCats(){
             dataType:'text',
             error:function(error){console.log(error.responseText);},
             success: function(action){
-              window.location.assign("admin.php");
+              //window.location.assign("admin.php");
             }
             });
             break;
@@ -742,7 +742,7 @@ function getCats(){
           case "editug":
           alert(globalPop);
             var removeUsers = '';
-            var addUsers;
+            var addUsers = '';
             if(ugRemoveArr.length > 0){
               for (i=0; i<ugRemoveArr.length -1; i++){
                 removeUsers += ugRemoveArr[i] + ",";
@@ -756,7 +756,7 @@ function getCats(){
               addUsers += ugAddArr[ugAddArr.length -1];
             }
             $.ajax({url: 'popProcessor.php',
-              data: {action: "editu", ugnum : ugnum, addusers: ugAddArr, removeusers : ugRemoveArr},
+              data: {action: "editu", ugnum : ugnum, addusers: addUsers, removeusers : removeUsers},
               type: 'POST',
               dataType:'text',
               error:function(error){console.log(error.responseText);},

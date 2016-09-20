@@ -3,6 +3,9 @@
   $username = "cbentle";
   $password = "guest";
   $dbname = "sprucynet";
+  $dsn = 'mysql:host=localhost;dbname=sprucynet';
 
-  $db = mysqli_connect($servername, $username, $password, $dbname);
+  $db = new PDO($dsn, $username, $password);
+  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 ?>
