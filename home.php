@@ -67,7 +67,7 @@
   	</div>
     <br>
     <br>
-    <div class="contentHead">Welcome home <?php echo $login_session; ?>!</div>
+    <div class="contentHead">Welcome home <?php echo $_SESSION['login_user']; ?>!</div>
     <div class="content">
     <br>
     <br>

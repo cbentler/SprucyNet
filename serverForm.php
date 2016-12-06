@@ -417,7 +417,7 @@
           <br>
         </div>
 		<input type="text" id="dateReq" name="dateReq" hidden  />
-    <input id="requestor" name="requestor" type="text" value="<?php echo $login_session; ?>" hidden/>
+    <input id="requestor" name="requestor" type="text" value="<?php echo $_SESSION['login_user']; ?>" hidden/>
 		<br>
     <div style="text-align: right;">
         <button type="submit" id="submit" class="submitBtn">Submit</button>

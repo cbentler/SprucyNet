@@ -1,56 +1,28 @@
 
 <?php
 /*<!--SprucyNet v0.0.4 9-10-16-->*/
-$servername = "localhost";
-$username = "cbentle";
-$password = "guest";
-$dbname = "sprucynet";
+include("config.php");
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$request = $db->prepare("SELECT maxnumval from maxnum where maxnum = 3");
+$request->execute();
+$reqReturn = $request->fetchColumn();
 
+$sql = $db->prepare("INSERT INTO requesttable (requestnum, requestdate, requestor, mediatype, title, artist, author, tvseason, tvepisode, year, genre, comments, status)
+SELECT maxnumval,:dateReq,:requestor,:mediaType,:title,:artist,:author,:season,:episode,:year,:genre,:comments,0 FROM maxnum WHERE maxnum = 3");
 
-$sql = "INSERT INTO requesttable (requestnum, requestdate, requestor, mediatype, title, artist, author, tvseason, tvepisode, year, genre, comments, status)
-SELECT maxnumval,
-\"{$_POST['dateReq']}\",
-\"{$_POST['requestor']}\",
-\"{$_POST['mediaType']}\",
-\"{$_POST['title']}\",
-\"{$_POST['artist']}\",
-\"{$_POST['author']}\",
-\"{$_POST['season']}\",
-\"{$_POST['episode']}\",
-\"{$_POST['year']}\",
-\"{$_POST['genre']}\",
-\"{$_POST['comments']}\",
-0
-from
-maxnum
-where
-maxnum = 3";
+$sql->execute( array(':dateReq' => $_POST['dateReq'], ':requestor' => $_POST['requestor'], ':mediaType' => $_POST['mediaType'], ':title' => $_POST['title'], ':artist' => $_POST['artist'],
+':author' => $_POST['author'],':season' => $_POST['season'],':episode' => $_POST['episode'],':year' => $_POST['year'],':genre' => $_POST['genre'],
+':comments' => $_POST['comments']));
 
-if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
-}
+$update = $db->prepare("UPDATE maxnum set maxnumval = maxnumval + 1 WHERE maxnum = 3");
 
-$update = "update maxnum set maxnumval = maxnumval + 1 where maxnum = 3";
+$update->execute();
 
-if ($conn->query($update) === TRUE) {
-    echo "Update Successful";
-} else {
-    echo "Error: " . $update . "<br>" . $conn->error;
-}
-
-$conn->close();
 
 // the message
-$msg = "There is a new request on the server.  Follow the link to see the pending requests: https://gamer3.us.to/home.php";
+$msg = "There is a new request on the server.  Please login to SprucyNet to view and complete pending requests.
+Request #".$reqReturn." - ".$_POST['title']." requested by ".$_POST['requestor']." on ".$_POST['dateReq']."
+ https://gamer3.us.to/home.php";
 
 // use wordwrap() if lines are longer than 70 characters
 $msg = wordwrap($msg,70);
