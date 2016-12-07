@@ -1,48 +1,20 @@
 <?php
 /*<!--SprucyNet v0.0.4 9-10-16-->*/
-$servername = "localhost";
-$username = "cbentle";
-$password = "guest";
-$dbname = "sprucynet";
+include("config.php");
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+  $password = $_POST['password'];
+  $hashpw = password_hash($password, PASSWORD_DEFAULT);
 
-if ($conn->connect_error) {
-     die("Connection failed: " . $conn->connect_error);
-   }
+   $sql = $db->prepare("INSERT INTO user (usernum, username, password, email, amtowed, fname, lname, active)
+   SELECT maxnumval, :username, :password, :email, 0, :fname, :lname, 1
+   FROM maxnum WHERE maxnum = 1");
 
-   $sql = "INSERT INTO user (usernum, username, password, email, amtowed, fname, lname, active)
-   SELECT maxnumval,
-   \"{$_POST['username']}\",
-   \"{$_POST['password']}\",
-   \"{$_POST['email']}\",
-   0,
-   \"{$_POST['fname']}\",
-   \"{$_POST['lname']}\",
-   1
+   $sql->execute(array(':username' => $_POST['username'], ':password' => $hashpw, ':email' => $_POST['email'], ':fname' => $_POST['fname'], ':lname' => $_POST['lname']));
 
 
-   from
-   sprucynet.maxnum
-   where
-   maxnum = 1";
+   $update = $db->prepare("update sprucynet.maxnum set maxnumval = maxnumval + 1 where maxnum = 1");
+   $update->execute();
 
-   if ($conn->query($sql) === TRUE) {
-       echo "New record created successfully";
-   } else {
-       echo "Error: " . $sql . "<br>" . $conn->error;
-   }
-
-   $update = "update sprucynet.maxnum set maxnumval = maxnumval + 1 where maxnum = 1";
-
-   if ($conn->query($update) === TRUE) {
-       echo "Update Successful";
-   } else {
-       echo "Error: " . $update . "<br>" . $conn->error;
-   }
-
-   $conn->close();
 
    if(!isset($_SESSION['login_user'])){
       header("location:login.php");
