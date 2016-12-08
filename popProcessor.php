@@ -97,17 +97,18 @@ function onLoad(){
 
     function editUser(){
       include('config.php');
-      if($db->connect_error){
-        die("Connection failed: ".$db->connect_error);
-      }else{
+
         //$usernum = $_POST["usernum"];
-        $usernum = 10;
+        $usernum = $_POST["usernum"];
         $username = $_POST["username"];
         $email = $_POST["email"];
         $fname = $_POST["fname"];
         $lname = $_POST["lname"];
         $pwreset = $_POST["pwreset"];
         $deactivate = $_POST["deactivate"];
+
+        $password = "password";
+        $hashpw = password_hash($password, PASSWORD_DEFAULT);
 
         if($deactivate !== ''){
           $query = "UPDATE user set active = 0 where usernum = :usernum";
@@ -124,14 +125,12 @@ function onLoad(){
             ":usernum" => $usernum
           ));
           if($pwreset !== ''){
-            $pwSql->prepare("UPDATE user set password = 'password' where usernum = :usernum");
-            $pwSql->bindValue(':usernum', $usernum);
-            $pwSql->execute();
+            $pwSql = $db->prepare("UPDATE user set password = :password where usernum = :usernum");
+            $pwSql->execute(array(':usernum' => $usernum, ':password' => $hashpw));
           }
         }
       }
-      $db->close();
-    }
+
 
 
 
