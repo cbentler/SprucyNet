@@ -1,6 +1,6 @@
 <!--SprucyNet v0.0.4 9-10-16-->
 <?php
-   //include('session.php');
+   include('session.php');
 ?>
 
 <HTML>
@@ -685,6 +685,7 @@ function getCats(){
         }
       }
 
+
       function popGo(){
         var lendor = '';
         var debtor = '';
@@ -734,13 +735,12 @@ function getCats(){
             dataType:'text',
             error:function(error){console.log(error.responseText);},
             success: function(action){
-              //window.location.assign("admin.php");
+            window.location.assign("admin.php");
             }
             });
             break;
 
           case "editug":
-          alert(globalPop);
             var removeUsers = '';
             var addUsers = '';
             if(ugRemoveArr.length > 0){
@@ -755,13 +755,14 @@ function getCats(){
               }
               addUsers += ugAddArr[ugAddArr.length -1];
             }
+            $('#popContent').html(processing);
             $.ajax({url: 'popProcessor.php',
-              data: {action: "editu", ugnum : ugnum, addusers: addUsers, removeusers : removeUsers},
+              data: {action: "editug", ugnum : ugnum, addusers: addUsers, removeusers : removeUsers},
               type: 'POST',
               dataType:'text',
               error:function(error){console.log(error.responseText);},
               success: function(action){
-                //window.location.assign("admin.php");
+                window.location.assign("admin.php");
               }
             });
             break;

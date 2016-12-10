@@ -74,7 +74,7 @@ function onLoad(){
         $removeArray = explode(',',$removeList);
         if($addList !== ''){
           for($i = 0; $i < count($addArray); $i++){
-            $stmt = $db->prepare("INSERT into uxug ('usergrpnum', 'usernum') VALUES(:ugnum, :usernum)");
+            $stmt = $db->prepare("INSERT into uxug (usergrpnum, usernum) VALUES(:ugnum, :usernum)");
             $stmt->execute(array(
               ':ugnum' => $ugnum,
               ':usernum' => $addArray[$i]
@@ -83,7 +83,7 @@ function onLoad(){
         }
         if($removeList !== ''){
           for($i = 0; $i < count($removeArray); $i++){
-            $stmt = $db->prepare("DELETE from uxug where usergrpnum = :ugnum and usernum = :usernum)");
+            $stmt = $db->prepare("DELETE from uxug where usergrpnum = :ugnum and usernum = :usernum");
             $stmt->execute(array(
               ':ugnum' => $ugnum,
               ':usernum' => $removeArray[$i]
