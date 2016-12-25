@@ -18,7 +18,7 @@
            // valid login
            $myusername = $_POST['username'];
            $_SESSION['login_user'] = $myusername;
-           if($users[8] = 1){
+           if($users[8] == 1){
              header("location: pwreset.php");
            }else{
              header("location: home.php");

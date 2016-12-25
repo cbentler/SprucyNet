@@ -14,7 +14,7 @@
      $sql->execute(array(':hashpw' => $hashpw, ':username' => $_SESSION['login_user']));
      header("location: home.php");
    }else{
-     $error = "These passwords do not match.  Please try again."
+     $error = "These passwords do not match.  Please try again.";
    }
 
 }
