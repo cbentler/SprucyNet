@@ -7,29 +7,14 @@
 
   if($_SERVER["REQUEST_METHOD"] == "POST") {
    // username and password sent from form
-
-   $sql = "SELECT * FROM user WHERE username = :username and active = 1";
-   $stmt = $db->prepare($sql);
-   $result = $stmt->execute(array(':username'=>$_POST['username']));
-   $users = $stmt->fetch();
-
-   if (isset($users[0])) {
-       if (password_verify($_POST['password'], $users[2])) {
-           // valid login
-           $myusername = $_POST['username'];
-           $_SESSION['login_user'] = $myusername;
-           if($users[8] = 1){
-             header("location: pwreset.php");
-           }else{
-             header("location: home.php");
-           }
-       } else {
-           // invalid password
-           $error = "Your Login Name or Password is Invalid.";
-       }
-   } else {
-       // invalid username
-       $error = "Your Login Name or Password is Invalid.";
+   if($_POST['password'] = $_POST['password2']){
+     $password = $_POST['password'];
+     $hashpw = password_hash($password, PASSWORD_DEFAULT);
+     $sql = $db->prepare("UPDATE user SET password = :hashpw WHERE username = :username");
+     $sql->execute(array(':hashpw' => $hashpw, ':username' => $_SESSION['login_user']));
+     header("location: home.php");
+   }else{
+     $error = "These passwords do not match.  Please try again."
    }
 
 }
@@ -129,21 +114,12 @@
       <br>
       <br>
       <div class="contentForm">
-        <div class="contentFormHeader">Enter Login Information</div>
+        <div class="contentFormHeader">You password has been reset. Enter new password.</div>
         <br>
         <?php
         echo $error;
          ?>
       <table class="inputTable">
-        <tr>
-          <td>
-            User Name:
-          </td>
-          <td>
-            <input type="text" id="username" name="username"/>
-          </td>
-        </tr>
-
         <tr>
           <td>
             Password:
@@ -154,13 +130,22 @@
         </tr>
 
         <tr>
+          <td>
+            Confirm Password:
+          </td>
+          <td>
+            <input type="password" id="password2" name="password2"/>
+          </td>
+        </tr>
+
+        <tr>
           <td colspan="2" style="height: 10px;"></td>
         </tr>
         <tr>
           <td>
           </td>
           <td style="text-align: right;">
-            <button type="submit" id="submit" class="submitBtn">Login</button>
+            <button type="submit" id="submit" class="submitBtn">Submit</button>
           </td>
         </tr>
       </table>

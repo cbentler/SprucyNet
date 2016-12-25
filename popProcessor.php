@@ -125,7 +125,7 @@ function onLoad(){
             ":usernum" => $usernum
           ));
           if($pwreset !== ''){
-            $pwSql = $db->prepare("UPDATE user set password = :password where usernum = :usernum");
+            $pwSql = $db->prepare("UPDATE user set password = :password and pwreset = 1 where usernum = :usernum");
             $pwSql->execute(array(':usernum' => $usernum, ':password' => $hashpw));
           }
         }
