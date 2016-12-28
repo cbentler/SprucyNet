@@ -7,7 +7,7 @@
 
   if($_SERVER["REQUEST_METHOD"] == "POST") {
    // username and password sent from form
-   if($_POST['password'] = $_POST['password2']){
+   if($_POST['password'] == $_POST['password2']){
      $password = $_POST['password'];
      $hashpw = password_hash($password, PASSWORD_DEFAULT);
      $sql = $db->prepare("UPDATE user SET password = :hashpw WHERE username = :username");

@@ -21,8 +21,8 @@ $update->execute();
 
 // the message
 $msg = "There is a new request on the server.  Please login to SprucyNet to view and complete pending requests.\n
-Request #".$reqReturn." - ".$_POST['title']." requested by ".$_POST['requestor']." on ".$_POST['dateReq'].\n"
- https://gamer3.us.to/home.php";
+Request #".$reqReturn." - ".$_POST['title']." requested by ".$_POST['requestor']." on ".$_POST['dateReq']."\n
+https://gamer3.us.to/home.php";
 
 // use wordwrap() if lines are longer than 70 characters
 $msg = wordwrap($msg,70);

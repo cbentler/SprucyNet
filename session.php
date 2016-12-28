@@ -11,6 +11,19 @@
 
    $_SESSION['usernum'] = $result;
 
+   $adminsql = $db->prepare("SELECT usergrpnum from uxug where usernum = :usernum");
+   $adminsql->execute( array(':usernum' => $result));
+
+   //$_SESSION['adminug'] = false;
+
+   while($ugresult = $adminsql->fetch(PDO::FETCH_ASSOC)){
+     if($ugresult == 1){
+       $_SESSION['adminug'] = true;
+     }else{
+       //$_SESSION['adminug'] = false;
+     }
+   }
+
 
    if(!isset($_SESSION['login_user'])){
       header("location:login.php");
