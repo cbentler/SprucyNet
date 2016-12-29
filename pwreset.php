@@ -1,3 +1,4 @@
+<!--SprucyNet v1.0.0 12-28-16-->
 <?php
   include("config.php");
   session_start();
@@ -10,7 +11,7 @@
    if($_POST['password'] == $_POST['password2']){
      $password = $_POST['password'];
      $hashpw = password_hash($password, PASSWORD_DEFAULT);
-     $sql = $db->prepare("UPDATE user SET password = :hashpw WHERE username = :username");
+     $sql = $db->prepare("UPDATE user SET password = :hashpw, pwreset = 0 WHERE username = :username");
      $sql->execute(array(':hashpw' => $hashpw, ':username' => $_SESSION['login_user']));
      header("location: home.php");
    }else{
@@ -19,8 +20,6 @@
 
 }
 ?>
-
-<!--SprucyNet v0.0.4 9-10-16-->
 
 <HTML>
   <head>

@@ -1,4 +1,4 @@
-<!--SprucyNet v0.0.4 9-10-16-->
+<!--SprucyNet v1.0.0 12-28-16-->
 <?php
    include('session.php');
 ?>
@@ -216,10 +216,10 @@
     <br>
     <div class="contentHead">Below are the pending requests for the server.</div>
     <div class="content">
-      <br>
       <div style="text-align: right;">
         <input id="submitNew" name="submitNew" class="requestButtons" type="button" value="New Request" onclick="location.href='serverForm.php'" />
         <input id="backToRequests" name="backToRequests" class="requestButtons" type="button" value="Request History" onclick="location.href='historicrequest.php'" />
+        <input id="compReq" name="compReq" class="requestButtons" type="button" onclick="compReq()" value="Complete Requests"/>
     </div>
     <br>
 			<table id="pendingReq" name="pendingReq" class="reqtable">
@@ -268,10 +268,6 @@
         ?>
 			</table>
 		<br>
-    <div style="text-align: right;">
-		<input id="submitNew" name="submitNew" class="requestButtons" type="button" value="New Request" onclick="location.href='serverForm.php'" />
-    <input id="compReq" name="compReq" class="requestButtons" type="button" onclick="compReq()" value="Complete Requests"/>
-  </div>
     </div>
     <div id="modal" class="modal">
         <div id="popContent" class="popContent">

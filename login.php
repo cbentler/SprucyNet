@@ -1,3 +1,4 @@
+<!--SprucyNet v1.0.0 12-28-16-->
 <?php
   include("config.php");
   session_start();
@@ -18,6 +19,7 @@
            // valid login
            $myusername = $_POST['username'];
            $_SESSION['login_user'] = $myusername;
+           $_SESSION['timeout'] = $_SERVER['REQUEST_TIME'];
            if($users[8] == 1){
              header("location: pwreset.php");
            }else{
