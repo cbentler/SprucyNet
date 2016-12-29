@@ -141,7 +141,6 @@ function onLoad(){
       echo($compArr);
       $updateSql = "UPDATE requesttable set status = 1 where requestnum in ($compArr)";
       $result = $db->query($updateSql);
-      $db->close();
     }
   }
 
