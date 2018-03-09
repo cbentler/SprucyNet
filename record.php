@@ -8,46 +8,20 @@
     <head>
       <link rel="icon" href="/sprucynet/favicon.png">
         <title>
-            Server Request Form
+            Request
         </title>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js">
         </script>
         <script>
             $(document).ready(function(){
-              $(window).keydown(function(event){
-                  if(event.keyCode == 13) {
-                    event.preventDefault();
-                    console.log("Hello");
-                    $("#search").click();
-                    //return false;
-                  }
-                });
-                $("#search").click(function(){
-                    var title = $('#title').val();
-                    var year = $('#year').val();
-					          var type = $('#mediaType').val();
-					               if(type == "TV Show"){
-						                type = "series";
-					               }
-
-                    var url = "https://www.omdbapi.com/?t="+title+"&y="+year+"&type="+type+"&plot=short&r=json&apikey=5382dc0d";
-					$.ajax({url: url, success: function(result){
-					if(result.Title == null){
-						alert("Update yo bitch-ass search terms.");
-					}else{
-                    $('#year').val(result.Year);
-                    $('#poster').attr('src', result.Poster);
-					$('#poster').show();
-                    $('#genre').val(result.Genre);
-                    $('#plot').val(result.Plot);
-					$('#plotDiv').show();
-                    $('#score').val(result.imdbRating);
-					$('#title').val(result.Title);
-                    }}});
-                    //$('#comments').val(url);
+              //database ajax call
+              hideMedia();
+      				setKeys();
+      				checkForType();
                 });
 
-            });
+
+
 
         function hideMedia(){
         $('#infoTable').hide();
@@ -90,7 +64,7 @@
 				$('#search').show();
 				$('#clear').show();
 				$('#plotDiv').hide();
-				clearKeys();
+
 			}
 
 			function selectBook(){
@@ -105,7 +79,7 @@
 				$('#search').hide();
 				$('#clear').hide();
 				$('#plotDiv').hide();
-				clearKeys();
+
 			}
 
             function selectTV(){
@@ -120,7 +94,7 @@
 				$('#search').show();
 				$('#clear').show();
 				$('#plotDiv').hide();
-				clearKeys();
+
             }
 
 			function selectAudio(){
@@ -135,67 +109,31 @@
 				$('#search').hide();
 				$('#clear').hide();
 				$('#plotDiv').hide();
-				clearKeys();
-            }
+          }
 
-			function clearKeys(){
-				$('#title').val('');
-				$('#season').val('');
-        $('#episode').val('');
-				$('#artist').val('');
-				$('#author').val('');
-				$('#year').val('');
-				$('#genre').val('');
-				$('#score').val('');
-				$('#plot').val('');
-				$('#plotDiv').hide();
-				$('#poster').hide();
-				$('#poster').attr('src', '');
-			}
+      function setKeys(){
+        $.ajax({url: getRecord.php,
+          success: function(result){
+            $('#year').val(result.Year);
+            $('#genre').val(result.Genre);
+            $('#title').val(result.Title);
 
-			function populateDate(){
-				var d = new Date();
-				var month = d.getMonth()+1;
-				var day = d.getDate();
-        var hours = d.getHours();
-        var min = d.getMinutes();
-        var sec = d.getSeconds();
-        var mili = d.getMilliseconds();
-				var output = d.getFullYear() + "-" + (month<10 ? '0' : '') + month + "-" + (day<10 ? '0' : '') + day + " " + hours + ":" + min + ":" + sec;
-				$('#dateReq').val(output);
-			}
-//4-26-17 Update to search on enter
+                }
+                });
+
+      }
+
+
+
+
+
 /*
-      $('#title').keypress(function(event){
-        if(event.which == 13){
-          //click search
-          event.preventDefault();
-          console.log("event");
-        }
-      })
-      */
-
 			function doOnLoad(){
 				hideMedia();
-				clearKeys()
+				setKeys();
 				checkForType();
-				populateDate();
-
 			}
-
-      function formValidation(){
-        var type = $("#mediaType").val();
-        var title = $("#title").val();
-        if(type == '' || type == 'default'){
-          alert("Select a type, yo!");
-          return false;
-        }else if(title == ''){
-          alert("Put in a title, yo!");
-          return false;
-        }else{
-          return true;
-        }
-      }
+      */
 
 
         </script>
@@ -304,7 +242,7 @@
 		</style>
     </head>
     <body onLoad="doOnLoad()">
-    <form action="processingScript.php" onsubmit="return formValidation();" method="POST">
+    <form method="POST">
       <div id="banner">
         <a href="home.php">
             <img src="resources/sprucy.png" alt="sprucy">
@@ -318,7 +256,7 @@
       <div class="contentHead"></div>
       <div class="content">
         <br>
-        <div class="contentFormHeader">What are you looking for?</div>
+        <div class="contentFormHeader"></div>
         <div class="contentForm">
             <table id="picTable">
                 <tr>
@@ -329,7 +267,7 @@
                         Media Type:
                     </td>
                     <td>
-                        <select name="mediaType" id="mediaType" onchange="checkForType()">
+                        <select name="mediaType" id="mediaType" readonly>
                             <option value="default"></option>
 							<option value="Audio">Audio</option>
 							<option value="Book">Book</option>
@@ -351,10 +289,10 @@
                 <td>
                 </td>
                 <td>
-                    <input type="button" id="search" value="Search" class="movieBtn">
+
                 </td>
 				<td>
-                    <input type="button" id="clear" value="Clear" class="movieBtn" onclick="clearKeys()">
+
                 </td>
             </tr>
             <tr id="seasonRow">
@@ -434,12 +372,16 @@
           <textarea name="comments" id="comments" rows="5" cols="100"></textarea>
           <br>
         </div>
-		<input type="text" id="dateReq" name="dateReq" hidden  />
-    <input id="requestor" name="requestor" type="text" value="<?php echo $_SESSION['login_user']; ?>" hidden/>
+        Date Requested:
+        <br>
+		<input type="text" id="dateReq" name="dateReq"/>
+    <br>
+    <br>
+    Requested By:
+    <br>
+    <input id="requestor" name="requestor" type="text" value=""/>
+
 		<br>
-    <div style="text-align: right;">
-        <button type="submit" id="submit" class="submitBtn">Submit</button>
-      </div>
       </div>
     </form>
     </body>

@@ -153,6 +153,11 @@
         }
       }
 
+      function openReq(id){
+        alert(id);
+        window.open("record.php","record");
+      }
+
       function compReq(){
         if(compArr == ""){
           alert("Please select a request to complete!");
@@ -226,11 +231,12 @@
         <tr>
           <th style="width: 5%;">Req #</th>
           <th style="width: 10%;">Requestor</th>
-          <th style="width: 30%">Title</th>
+          <th style="width: 25%">Title</th>
           <th style="width: 10%;">Media Type</th>
           <th style="width: 10%;">Date Requested</th>
           <th style="width: 30%">Comments</th>
           <th style="width: 5%;">Select Row</th>
+          <th style="width: 5%;">Open Req.</th>
         </tr>
 
         <?php
@@ -256,7 +262,7 @@
 
                $table = '<tr><td>'. $row["requestnum"].'</td><td id="user'. $row["requestnum"].'">'. $row["requestor"].'</td><td id="title'. $row["requestnum"].'">';
                $table .= $row["title"].'</td><td>'. $row["mediatype"].'</td><td id="date'. $row["requestnum"].'">'. $row["requestdate"].'</td><td>'. $row["comments"];
-               $table .= '</td><td><input type="button" id="'. $row["requestnum"].'" name="deleteButton" value="+" onclick="q(this.id)" class="compBtn"/></td></tr>';
+               $table .= '</td><td><input type="button" id="'. $row["requestnum"].'" name="deleteButton" value="+" onclick="q(this.id)" class="compBtn"/></td><td><input style="background: url(resources/folderIcon.png); width:40px; height:30px" type="button"  id="r'.$row["requestnum"].'" onclick="openReq('.$row["requestnum"].')"></td></tr>';
                echo($table);
 
              }
