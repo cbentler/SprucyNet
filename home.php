@@ -78,11 +78,11 @@
             <img class="link" src="resources/serverform.png">
           </a>
         </td>
-        <?php if ($_SESSION['adminug'] == true){ ?>
         <td>
-          <img class="link" src="resources/billpay.png">
+          <a href="gamespace.php">
+            <img class="link" src="resources/gamespace.png">
+          </a>
         </td>
-        <?php } ?>
         <td>
           <a href="resources/feedback.gif">
           <img class="link" src="resources/feedback.png">
